@@ -48,6 +48,14 @@ doctrine:
         auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
+        mappings:
+          gedmo_tree:
+            type: annotation
+            prefix: Gedmo\Tree\Entity
+            dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
+            alias: GedmoTree # this one is optional and will default to the name set for the mapping
+            is_bundle: false
+
 
 # File Uploader
 vich_uploader:
@@ -71,3 +79,8 @@ swiftmailer:
     username:  null
     password:  null
     spool:     { type: memory }
+
+stof_doctrine_extensions:
+    orm:
+        default:
+            tree: true

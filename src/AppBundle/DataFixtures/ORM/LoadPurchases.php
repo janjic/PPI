@@ -17,36 +17,36 @@ class LoadPurchases extends AbstractFixture implements OrderedFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        foreach (range(0, 29) as $i) {
-            $purchase = new Purchase();
-            $purchase->setGuid($this->generateGuid());
-            $purchase->setDeliveryDate(new \DateTime("+$i days"));
-            $purchase->setCreatedAt(new \DateTime("now +$i seconds"));
-            $purchase->setShipping(new \StdClass());
-            $purchase->setDeliveryHour($this->getRandomHour());
-            $purchase->setBillingAddress(json_encode(array(
-                'line1' => '1234 Main Street',
-                'line2' => 'Big City, XX 23456',
-            )));
-            $purchase->setBuyer($this->getReference('user-'.($i % 20)));
+//        foreach (range(0, 29) as $i) {
+//            $purchase = new Purchase();
+//            $purchase->setGuid($this->generateGuid());
+//            $purchase->setDeliveryDate(new \DateTime("+$i days"));
+//            $purchase->setCreatedAt(new \DateTime("now +$i seconds"));
+//            $purchase->setShipping(new \StdClass());
+//            $purchase->setDeliveryHour($this->getRandomHour());
+//            $purchase->setBillingAddress(json_encode(array(
+//                'line1' => '1234 Main Street',
+//                'line2' => 'Big City, XX 23456',
+//            )));
+//            $purchase->setBuyer($this->getReference('user-'.($i % 20)));
+//
+//            $this->addReference('purchase-'.$i, $purchase);
+//            $manager->persist($purchase);
+//            $manager->flush();
+//
+//            $numItemsPurchased = rand(1, 5);
+//            foreach (range(1, $numItemsPurchased) as $j) {
+//                $item = new PurchaseItem();
+//                $item->setQuantity(rand(1, 3));
+//                $item->setProduct($this->getRandomProduct());
+//                $item->setTaxRate(0.21);
+//                $item->setPurchase($this->getReference('purchase-'.$i));
+//
+//                $manager->persist($item);
+//            }
+//        }
 
-            $this->addReference('purchase-'.$i, $purchase);
-            $manager->persist($purchase);
-            $manager->flush();
-
-            $numItemsPurchased = rand(1, 5);
-            foreach (range(1, $numItemsPurchased) as $j) {
-                $item = new PurchaseItem();
-                $item->setQuantity(rand(1, 3));
-                $item->setProduct($this->getRandomProduct());
-                $item->setTaxRate(0.21);
-                $item->setPurchase($this->getReference('purchase-'.$i));
-
-                $manager->persist($item);
-            }
-        }
-
-        $manager->flush();
+        //$manager->flush();
     }
 
     private function generateGuid()

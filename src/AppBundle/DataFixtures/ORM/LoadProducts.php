@@ -16,23 +16,23 @@ class LoadProducts extends AbstractFixture implements OrderedFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        foreach (range(0, 99) as $i) {
-            $product = new Product();
-            $product->setEnabled((rand(1, 1000) % 10) < 7);
-            $product->setName($this->getRandomName());
-            $product->setDescription($this->getRandomDescription());
-            $product->setPrice($this->getRandomPrice());
-            $product->setEan($this->getRandomEan());
-            $product->setImage('image'.($i % 10).'.jpg');
-            $product->setCategories($this->getRandomCategories());
-            $product->setTags($this->getRandomTags());
-            $product->setFeatures($this->getRandomFeatures());
-
-            $this->addReference('product-'.$i, $product);
-            $manager->persist($product);
-        }
-
-        $manager->flush();
+//        foreach (range(0, 99) as $i) {
+//            $product = new Product();
+//            $product->setEnabled((rand(1, 1000) % 10) < 7);
+//            $product->setName($this->getRandomName());
+//            $product->setDescription($this->getRandomDescription());
+//            $product->setPrice($this->getRandomPrice());
+//            $product->setEan($this->getRandomEan());
+//            $product->setImage('image'.($i % 10).'.jpg');
+//            $product->setCategories($this->getRandomCategories());
+//            $product->setTags($this->getRandomTags());
+//            $product->setFeatures($this->getRandomFeatures());
+//
+//            $this->addReference('product-'.$i, $product);
+//            $manager->persist($product);
+//        }
+//
+//        $manager->flush();
     }
 
     private function getRandomTags()

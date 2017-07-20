@@ -22,6 +22,58 @@ class User extends BaseUser
      */
     protected $id;
 
+
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $firstName;
+
+
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $lastName;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $country;
+
+
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $city;
+
+
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $street;
+
+
+    /**
+     * @var string
+     * @ORM\Column(type="simple_array")
+     */
+    protected $phoneNumbers= array();
+
+
+
+
+    /**
+     *
+     * @var Project[]
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Project", inversedBy="directors")
+     * @ORM\JoinTable(name="project_directors")
+     */
+    private $projects;
+
     /**
      * @var Purchase[]
      *
@@ -40,7 +92,7 @@ class User extends BaseUser
      * It only stores the name of the file which stores the contract subscribed
      * by the user.
      *
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      *
      * @var string
      */
@@ -67,6 +119,7 @@ class User extends BaseUser
 
         $this->purchases = new ArrayCollection();
         $this->isActive = true;
+        $this->projects = new ArrayCollection();
     }
 
     /**
@@ -141,10 +194,147 @@ class User extends BaseUser
         return $this->contract;
     }
 
-    public function getRoles()
+
+    /**
+     * @return Project[]|ArrayCollection
+     */
+    public function getProjects()
     {
-        return $this->roles;
+        return $this->projects;
     }
+
+    /**
+     * @param $projects
+     */
+    public function setProjects($projects)
+    {
+        $this->projects->clear();
+        $this->projects = new ArrayCollection($projects);
+    }
+
+    /**
+     * @param Project $project
+     */
+    public function addProject($project)
+    {
+        if ($this->projects->contains($project)) {
+            return;
+        }
+
+        $this->projects->add($project);
+        //$project->addDirector($this);
+    }
+
+    /**
+     * @param Project $project
+     */
+    public function removeProject($project)
+    {
+        if (!$this->projects->contains($project)) {
+            return;
+        }
+
+        $this->projects->removeElement($project);
+        $project->removeDirector($this);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * @param mixed $city
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * @param mixed $country
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @param mixed $firstName
+     */
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @param mixed $lastName
+     */
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPhoneNumbers()
+    {
+        return $this->phoneNumbers;
+    }
+
+    /**
+     * @param mixed $phoneNumbers
+     */
+    public function setPhoneNumbers($phoneNumbers)
+    {
+        $this->phoneNumbers = $phoneNumbers;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStreet()
+    {
+        return $this->street;
+    }
+
+    /**
+     * @param mixed $street
+     */
+    public function setStreet($street)
+    {
+        $this->street = $street;
+    }
+
+
 
     public function serialize()
     {

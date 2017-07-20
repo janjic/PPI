@@ -19,6 +19,7 @@ web/uploads
 
 # Assets and user uploads
 /web/bundles/
+.idea
 
 # PHPUnit
 /phpunit.xml
@@ -29,3 +30,4 @@ web/uploads
 .idea/modules.xml
 .idea/workspace.xml
 Vagrant.1/
+var/cache/

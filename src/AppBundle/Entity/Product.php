@@ -47,7 +47,7 @@ class Product
      * List of tags associated to the product.
      *
      * @var string[]
-     * @ORM\Column(type="simple_array")
+     * @ORM\Column(type="simple_array", nullable=true)
      */
     private $tags = array();
 
