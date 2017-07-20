@@ -19,7 +19,6 @@ web/uploads
 
 # Assets and user uploads
 /web/bundles/
-.idea
 
 # PHPUnit
 /phpunit.xml
@@ -27,7 +26,7 @@ web/uploads
 # Composer PHAR
 /composer.phar
 .idea/easy-admin-demo.iml
-.idea/modules.xml
-.idea/workspace.xml
+#.idea/modules.xml
+#.idea/workspace.xml
 Vagrant.1/
-var/cache/
+.idea
