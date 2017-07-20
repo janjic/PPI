@@ -10,7 +10,7 @@
 !var/data/
 var/data/*
 !var/data/.gitkeep
-
+web/uploads
 # Parameters
 /app/config/parameters.yml
 
