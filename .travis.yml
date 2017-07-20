@@ -1,0 +1,34 @@
+language: php
+
+php:
+    - 5.5
+    - 7.0
+
+sudo: false
+
+cache:
+    directories:
+        - $HOME/.composer/cache
+
+env:
+    global:
+        - SYMFONY_DEPRECATIONS_HELPER=strict
+
+matrix:
+    fast_finish: true
+
+before_install:
+    - if [[ ! $TRAVIS_PHP_VERSION = hhvm* ]]; then INI_FILE=~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini; else INI_FILE=/etc/hhvm/php.ini; fi
+    - echo memory_limit = -1 >> $INI_FILE
+    - echo session.gc_probability = 0
+    - echo opcache.enable_cli = 1 >> $INI_FILE
+    - composer selfupdate
+
+install:
+    - composer update --prefer-dist --no-interaction
+
+script:
+    - ./bin/console doctrine:database:create --env=test
+    - ./bin/console doctrine:schema:create --env=test
+    - ./bin/console doctrine:fixtures:load --env=test --no-interaction
+    - phpunit

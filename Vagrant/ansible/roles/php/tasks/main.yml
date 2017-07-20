@@ -1,0 +1,56 @@
+---
+- name: Add repository for Ubuntu
+  become: true
+  apt_repository: repo={{ php.ppa }}
+
+- name: Update apt
+  become: true
+  become_method: sudo
+  apt: update_cache=yes
+
+- name: Install php
+  become: true
+  become_method: sudo
+  apt: pkg=php state=latest
+
+- name: Install PHP Packages
+  become: true
+  become_method: sudo
+  apt: pkg={{ item }} state=latest
+  with_items: "{{php.packages}}"
+  when: php.packages is defined
+
+- name: Install pear
+  become: true
+  become_method: sudo
+  apt: pkg=php-pear state=latest
+
+- include: configure.yml
+- include: pecl.yml
+
+- name: Copy xdebug ini into main extension config folder.
+  template:
+    src: xdebug.ini.j2
+    dest: "{{ item }}/{{ php_xdebug_config_filename }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items: "{{ php_extension_conf_paths }}"
+
+- name: Configure php-fpm max execution time.
+  lineinfile:
+    dest: /etc/php/7.1/fpm/php.ini
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  with_items:
+    - { regexp: '^max_execution_time', line: "max_execution_time='{{ max_execution_time }}'" }
+
+- name: Change php-fpm www.conf max execution time.
+  lineinfile:
+    dest: /etc/php/7.1/fpm/pool.d/www.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  with_items:
+    - { regexp: '^request_terminate_timeout', line: "request_terminate_timeout='{{ max_execution_time }}'" }
