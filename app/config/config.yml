@@ -10,6 +10,7 @@ parameters:
     app.path.ppi_images: /uploads/images/ppi
     app.path.product_images: /uploads/images/products
     app.path.user_contracts: /uploads/files/user/contracts
+    app.path.user_images: /uploads/files/user/images
 
 framework:
     #esi:             ~
@@ -49,6 +50,14 @@ doctrine:
         auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
+        mappings:
+          gedmo_tree:
+            type: annotation
+            prefix: Gedmo\Tree\Entity
+            dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
+            alias: GedmoTree # this one is optional and will default to the name set for the mapping
+            is_bundle: false
+
 
 # File Uploader
 vich_uploader:
@@ -57,14 +66,26 @@ vich_uploader:
         product_images:
             uri_prefix: '%app.path.product_images%'
             upload_destination: '%kernel.root_dir%/../web/uploads/images/products'
+        user_images:
+          uri_prefix: '%app.path.user_images%'
+          upload_destination: '%kernel.root_dir%/../web/uploads/images/products'
         user_contracts:
             uri_prefix: '%app.path.user_contracts%'
             upload_destination: '%kernel.root_dir%/../web/uploads/files/user/contracts'
+        base_images:
+            uri_prefix: '%app.path.ppi_images%'
+            upload_destination: '%kernel.root_dir%/../web/uploads/base/images'
 
 fos_user:
     db_driver: orm
     firewall_name: main
     user_class: AppBundle\Entity\User
+    from_email:
+      address: you@example.com
+      sender_name: You
+twig:
+    form_themes:
+            - BnbcUploadBundle:Form:fields.html.twig
 
 swiftmailer:
     transport: null
@@ -72,3 +93,8 @@ swiftmailer:
     username:  null
     password:  null
     spool:     { type: memory }
+
+stof_doctrine_extensions:
+    orm:
+        default:
+            tree: true

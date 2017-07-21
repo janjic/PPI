@@ -12,19 +12,26 @@ easy_admin:
             class: AppBundle\Entity\User
             list:
                 title: 'Customers'
-#                actions: ['-new']
-                fields: ['id', 'isActive', 'username', 'email', 'purchases', { property: 'contract', template: 'contract.html.twig', base_path: '%app.path.user_contracts%' }]
-            show:
-                fields: ['id', 'isActive', 'username', 'email', 'purchases', { property: 'contract', template: 'contract.html.twig', base_path: '%app.path.user_contracts%' }]
+                actions:
+                  - { name: 'edit', label: '', icon: 'edit' }
+                  - { name: 'delete', label: '', icon: 'trash' }
+                fields: ['id', 'isActive', 'username', 'email', 'roles', 'firstName', 'lastName', 'country', 'roles']
             form:
                 fields:
                     - { type: 'group', label: 'Account Information', icon: 'user', css_class: 'col-sm-4' }
                     - { property: 'username' }
+                    - { property: 'plainPassword', label: 'Password', type: 'text', type_options: { required: false } }
+                    - { property: 'firstName', type: 'text', type_options: { required: true } }
+                    - { property: 'lastName', type: 'text', type_options: { required: true } }
                     - { property: 'isActive' }
-                    - { property: 'roles', type: 'choice', type_options: { choices: { 'ADMIN': 'ROLE_ADMIN', 'USER': 'ROLE_USER' } } }
+                    - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN' } } }
                     - { type: 'group', label: 'Contact Information', icon: 'envelope-o', css_class: 'col-sm-4' }
-                    - { property: 'email' }
+                    - { property: 'email', type: 'email'}
+                    - { property: 'country', type: 'country', type_options: { required: false } }
+                    - { property: 'city', type: 'text', type_options: { required: false } }
+                    - { property: 'street', type: 'text', type_options: { required: false } }
                     - { type: 'group', label: 'Legal Information', icon: 'briefcase', css_class: 'col-sm-4' }
-                    - { property: 'contractFile', type: 'Vich\UploaderBundle\Form\Type\VichFileType' }
-                    - { type: 'group', label: 'Transactions History', icon: 'money', css_class: 'col-sm-12' }
-                    - { property: 'purchases', css_class: 'col-sm-12' }
+                    - { property: 'images', type: 'collection', type_options: { entry_type: 'AppBundle\Form\ImageType', by_reference: false }}
+                    - { property: 'phoneNumbers'}
+                    - { type: 'group', label: 'Projects included', icon: 'film', css_class: 'col-sm-12' }
+                    - { property: 'projects', css_class: 'col-sm-12' }

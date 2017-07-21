@@ -14,9 +14,9 @@ easy_admin:
             - label: 'menu.product'
               icon: 'shopping-basket'
               children:
-                  - { entity: 'Product', icon: 'th-list', label: 'menu.product.list', params: { sortField: 'createdAt' }, default: true }
+                  - { entity: 'Product', icon: 'th-list', label: 'menu.product.list', params: { sortField: 'id' }, default: true }
                   - { entity: 'Category', icon: 'tags', label: 'menu.category' }
+                  - { entity: 'Project', icon: 'tags', label: 'menu.project' }
                   - { entity: 'Product', icon: 'plus-circle', label: 'menu.product.add', params: { action: 'new' } }
             - { label: 'menu.customer', entity: 'User', icon: 'users' }
             - { label: 'menu.purchase', entity: 'Purchase', icon: 'credit-card', params: { sortField: 'deliveryDate' } }
-            - { label: 'Add new PpiProduct', entity: 'PpiProduct' }

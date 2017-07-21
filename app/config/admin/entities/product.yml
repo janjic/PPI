@@ -14,46 +14,46 @@ easy_admin:
         # can be the configuration of your backend
         Product:
             class: AppBundle\Entity\Product
-            label: 'Products'
+            label: 'PPI Products'
             list:
                 fields:
                     - id
-                    - enabled
                     - name
-                    - { property: 'price', format: '%.2f', css_class: text-right }
-                    - { property: 'ean', type: 'string' }
-                    - { property: 'image', type: 'image', base_path: '%app.path.product_images%' }
-                    - { property: 'createdAt', format: 'j / M / Y' }
-                    - tags
+                    - alternateName
+                    - description
+#                    - disambiguatingDescription
+#                    - url
+#                    - provisionContactName
+                    - { property: 'logo', type: 'Image', base_path: '%app.path.ppi_images%' }
+#                    - { property: 'provisionContactPhone', type: 'array' }
+#                    - { property: 'provisionContactEmail', type: 'array' }
             show:
                 fields:
                     - id
+                    - { property: 'logo', type: 'image', base_path: '%app.path.ppi_images%' }
                     - { property: 'name', css_class: 'large' }
                     - description
-                    - { property: 'enabled', label: 'Published' }
-                    - createdAt
-                    - price
-                    - { property: 'ean', type: 'string' }
-                    - { property: 'image', type: 'image', base_path: '%app.path.product_images%' }
-                    - features
-                    - categories
-                    - tags
             form:
                 fields:
                     - { type: 'group', css_class: 'col-sm-8', label: 'Basic information', icon: 'pencil' }
                     - { property: 'name', css_class: 'large' }
+                    - { property: 'alternateName', css_class: 'large' }
                     - { property: 'description', type: 'ckeditor' }
-                    - { type: 'divider' }
-                    - { property: 'categories', type: 'easyadmin_autocomplete' }
-                    - { type: 'group', css_class: 'col-sm-4', label: 'Product Details', icon: 'cube' }
-                    - { property: 'ean', help: 'EAN-13 valid code. Leave empty if unknown.' }
-                    - { property: 'price', type: 'number' }
-                    - { type: 'section', label: 'Advanced Settings', icon: 'warning', help: 'Reserved for administrators use' }
-                    - { property: 'enabled', label: 'Published' }
-                    - { property: 'createdAt' }
-                    - { type: 'group', css_class: 'col-sm-8 new-row' }
-                    - { property: 'features' }
-                    - { type: 'group', css_class: 'col-sm-4' }
-                    - { property: 'tags' }
-                    - { type: 'group', css_class: 'col-sm-4', label: 'Attachments', icon: 'paperclip' }
-                    - { property: 'imageFile', type: 'vich_image', type_options: { required: true } }
+                    - { property: 'disambiguatingDescription', type: 'ckeditor' }
+                    - { property: 'provisionContactPhone', type: 'collection' }
+                    - { property: 'logoFile', type: 'vich_image' }
+                    - { property: 'images', type: 'collection', type_options: { entry_type: 'AppBundle\Form\ImageType', by_reference: false }}
+#                    - { type: 'divider' }
+#                    - { property: 'categories', type: 'easyadmin_autocomplete' }
+#                    - { type: 'group', css_class: 'col-sm-4', label: 'Product Details', icon: 'cube' }
+#                    - { property: 'ean', help: 'EAN-13 valid code. Leave empty if unknown.' }
+#                    - { property: 'price', type: 'number' }
+#                    - { type: 'section', label: 'Advanced Settings', icon: 'warning', help: 'Reserved for administrators use' }
+#                    - { property: 'enabled', label: 'Published' }
+#                    - { property: 'createdAt' }
+#                    - { type: 'group', css_class: 'col-sm-8 new-row' }
+#                    - { property: 'features' }
+#                    - { type: 'group', css_class: 'col-sm-4' }
+#                    - { property: 'tags' }
+#                    - { type: 'group', css_class: 'col-sm-4', label: 'Attachments', icon: 'paperclip' }
+#                    - { property: 'imageFile', type: 'vich_image', type_options: { required: true } }

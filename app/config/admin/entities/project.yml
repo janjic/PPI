@@ -1,0 +1,30 @@
+easy_admin:
+    entities:
+        Project:
+            class: AppBundle\Entity\Project
+            label: 'Projects'
+            list:
+                title: 'Project %%entity_label%%'
+                actions:
+                    - { name: 'edit', label: '', icon: 'edit' }
+                    - { name: 'delete', label: '', icon: 'trash' }
+                fields:
+                    - 'id'
+                    - { property: 'name', label: 'Name' , template: '@App/table_text.html.twig'}
+                    - { property: 'url',  label: 'Url' , template: '@App/table_text.html.twig'}
+                    - { property: 'description',  label: 'Description', template: '@App/table_text.html.twig' }
+                    - { property: 'alternateName', label: 'Alternate name', template: '@App/table_text.html.twig' }
+                    - { property: 'disambiguatingDescription', label: 'Disambiguating Description' , template: '@App/table_text.html.twig'}
+                    - { property: 'summary', label: 'Summary' , template: '@App/table_text.html.twig'}
+                    - 'directors'
+
+            form:
+                fields:
+                    - { type: 'group', css_class: 'col-sm-10' }
+                    - { property: 'name', label: 'Name', css_class: 'large', help: 'As displayed on the website (the slug is auto-generated)' }
+                    - { property: 'url',  label: 'Url', css_class: 'large', help: 'As displayed on the website (the slug is auto-generated)' }
+                    - { property: 'description', type: 'ckeditor', label: 'Description', css_class: 'large', help: 'As displayed on the website (the slug is auto-generated)' }
+                    - { property: 'alternateName',  label: 'Alternate name', css_class: 'large', help: 'As displayed on the website (the slug is auto-generated)' }
+                    - { property: 'disambiguatingDescription',  label: 'Disambiguating Description', css_class: 'large', help: 'As displayed on the website (the slug is auto-generated)' }
+                    - { property: 'summary',  type: 'ckeditor' , label: 'Summary', css_class: 'large', help: 'As displayed on the website (the slug is auto-generated)' }
+                    - { property: 'directors', type: 'easyadmin_autocomplete', label: 'Directors', type_options: { by_reference: false } }

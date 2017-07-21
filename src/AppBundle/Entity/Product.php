@@ -12,7 +12,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Entity\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
@@ -25,386 +25,101 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Product
 {
+
     /**
-     * The identifier of the product.
-     *
-     * @var int
+     * @var integer
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id = null;
+    protected $id;
 
     /**
-     * The creation date of the product.
-     *
-     * @var \DateTime
-     * @ORM\Column(type="datetime", name="created_at")
-     */
-    private $createdAt = null;
-
-    /**
-     * List of tags associated to the product.
-     *
-     * @var string[]
-     * @ORM\Column(type="simple_array")
-     */
-    private $tags = array();
-
-    /**
-     * The EAN 13 of the product. (type set to string in PHP due to 32 bit limitation).
-     *
      * @var string
-     * @ORM\Column(type="bigint")
+     * @ORM\Column(name="name", type="string")
      */
-    private $ean;
+    protected $name;
 
     /**
-     * Indicate if the product is enabled (available in store).
-     *
-     * @var bool
-     * @ORM\Column(type="boolean")
+     * @var string
+     * @ORM\Column(name="alternate_name", type="string", nullable=true)
      */
-    private $enabled = false;
+    protected $alternateName;
 
     /**
-     * It only stores the name of the image associated with the product.
+     * @var string
+     * @ORM\Column(name="description", type="string")
+     */
+    protected $description;
+
+    /**
+     * @var string
+     * @ORM\Column(name="disambiguating_description", type="string", nullable=true)
+     */
+    protected $disambiguatingDescription;
+
+    /**
+     * @var string
+     * @ORM\Column(name="potential_action", type="string", nullable=true)
+     */
+    protected $potentialAction;
+
+    /**
+     * @var string
+     * @ORM\Column(name="same_as", type="string", nullable=true)
+     */
+    protected $sameAs;
+
+    /**
+     * @var string
+     * @ORM\Column(name="url", type="string", nullable=true)
+     */
+    protected $url;
+
+    /**
+     * @var Image[]|ArrayCollection
      *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Image", cascade={"all"})
+     * @ORM\JoinTable(name="product_images",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="image_id", referencedColumnName="id", unique=true)}
+     * )
+     */
+    private $images;
+
+
+    /**
+     * @Vich\UploadableField(mapping="base_images", fileNameProperty="logo")
+     *
+     * @var File $logoFile
+     */
+    protected $logoFile;
+
+    /**
      * @ORM\Column(type="string", length=255)
-     *
      * @var string
      */
-    private $image;
+    protected $logo;
 
     /**
-     * This unmapped property stores the binary contents of the image file
-     * associated with the product.
-     *
-     * @Vich\UploadableField(mapping="product_images", fileNameProperty="image")
-     *
-     * @var File
-     */
-    private $imageFile;
-
-    /**
-     * Features of the product.
-     * Associative array, the key is the name/type of the feature, and the value the data.
-     * Example:<pre>array(
-     *     'size' => '13cm x 15cm x 6cm',
-     *     'bluetooth' => '4.1'
-     * )</pre>.
-     *
-     * @var array
-     * @ORM\Column(type="array")
-     */
-    private $features = array();
-
-    /**
-     * The price of the product.
-     *
-     * @var float
-     * @ORM\Column(type="float")
-     */
-    private $price = 0.0;
-
-    /**
-     * The name of the product.
-     *
      * @var string
-     * @ORM\Column(type="string")
+     * @ORM\Column(name="provision_contact_name", type="string", nullable=true)
      */
-    private $name;
+    protected $provisionContactName;
 
     /**
-     * The description of the product.
-     *
      * @var string
-     * @ORM\Column(type="text")
+     * @ORM\Column(name="provision_contact_phone", type="simple_array", nullable=true)
      */
-    private $description;
+    protected $provisionContactPhone;
 
     /**
-     * List of categories where the products is
-     * (Owning side).
-     *
-     * @var Category[]
-     * @ORM\ManyToMany(targetEntity="Category", inversedBy="products")
-     * @ORM\JoinTable(name="product_category")
+     * @var string
+     * @ORM\Column(name="provision_contact_email", type="simple_array", nullable=true)
      */
-    private $categories;
+    protected $provisionContactEmail;
 
     /**
-     * @var PurchaseItem[]
-     * @ORM\OneToMany(targetEntity="PurchaseItem", mappedBy="product", cascade={"remove"})
-     */
-    private $purchasedItems;
-
-    public function __construct()
-    {
-        $this->categories = new ArrayCollection();
-        $this->createdAt = new \DateTime();
-    }
-
-    /**
-     * Add a category in the product association.
-     * (Owning side).
-     *
-     * @param $category Category the category to associate
-     */
-    public function addCategory($category)
-    {
-        if ($this->categories->contains($category)) {
-            return;
-        }
-
-        $this->categories->add($category);
-        $category->addProduct($this);
-    }
-
-    /**
-     * Remove a category in the product association.
-     * (Owning side).
-     *
-     * @param $category Category the category to associate
-     */
-    public function removeCategory($category)
-    {
-        if (!$this->categories->contains($category)) {
-            return;
-        }
-
-        $this->categories->removeElement($category);
-        $category->removeProduct($this);
-    }
-
-    /**
-     * Set the description of the product.
-     *
-     * @param string $description
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-    }
-
-    /**
-     * The the full description of the product.
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Define the EAN code of the product.
-     *
-     * @param string $ean
-     */
-    public function setEan($ean)
-    {
-        $this->ean = $ean;
-    }
-
-    /**
-     * Get the EAN code.
-     *
-     * @return string
-     */
-    public function getEan()
-    {
-        return $this->ean;
-    }
-
-    /**
-     * Set if the product is enable.
-     *
-     * @param bool $enabled
-     */
-    public function setEnabled($enabled)
-    {
-        $this->enabled = $enabled;
-    }
-
-    /**
-     * Is the product enabled?
-     *
-     * @return bool
-     */
-    public function getEnabled()
-    {
-        return $this->enabled;
-    }
-
-    /**
-     * Alias of getEnabled.
-     *
-     * @return bool
-     */
-    public function isEnabled()
-    {
-        return $this->getEnabled();
-    }
-
-    /**
-     * Set the list of features.
-     * The parameter is an associative array (key as type, value as data.
-     *
-     * @param array $features
-     */
-    public function setFeatures($features)
-    {
-        $this->features = $features;
-    }
-
-    /**
-     * Get all product features.
-     *
-     * @return array
-     */
-    public function getFeatures()
-    {
-        return $this->features;
-    }
-
-    /**
-     * @param File $image
-     */
-    public function setImageFile(File $image = null)
-    {
-        $this->imageFile = $image;
-    }
-
-    /**
-     * @return File
-     */
-    public function getImageFile()
-    {
-        return $this->imageFile;
-    }
-
-    /**
-     * @param string $image
-     */
-    public function setImage($image)
-    {
-        $this->image = $image;
-    }
-
-    /**
-     * @return string
-     */
-    public function getImage()
-    {
-        return $this->image;
-    }
-
-    /**
-     * Set the product name.
-     *
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * Retrieve the name of the product.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set the price.
-     *
-     * @param float $price
-     */
-    public function setPrice($price)
-    {
-        $this->price = $price;
-    }
-
-    /**
-     * Get the price of the product.
-     *
-     * @return float
-     */
-    public function getPrice()
-    {
-        return $this->price;
-    }
-
-    /**
-     * Set the list of the tags.
-     *
-     * @param \string[] $tags
-     */
-    public function setTags($tags)
-    {
-        $this->tags = $tags;
-    }
-
-    /**
-     * Get the list of tags associated to the product.
-     *
-     * @return \string[]
-     */
-    public function getTags()
-    {
-        return $this->tags;
-    }
-
-    /**
-     * Get all associated categories.
-     *
-     * @return Category[]
-     */
-    public function getCategories()
-    {
-        return $this->categories;
-    }
-
-    /**
-     * Set all categories of the product.
-     *
-     * @param Category[] $categories
-     */
-    public function setCategories($categories)
-    {
-        // This is the owning side, we have to call remove and add to have change in the category side too.
-        foreach ($this->getCategories() as $category) {
-            $this->removeCategory($category);
-        }
-        foreach ($categories as $category) {
-            $this->addCategory($category);
-        }
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function setCreatedAt(\DateTime $createdAt)
-    {
-        $this->createdAt = $createdAt;
-    }
-
-    /**
-     * Get the id of the product.
-     *
      * @return int
      */
     public function getId()
@@ -413,26 +128,230 @@ class Product
     }
 
     /**
-     * {@inheritdoc}
+     * @param int $id
+     * @return Product
      */
-    public function __toString()
+    public function setId($id)
     {
-        return $this->getName();
+        $this->id = $id;
+        return $this;
     }
 
     /**
-     * @param PurchaseItem[] $purchasedItems
+     * @return string
      */
-    public function setPurchasedItems($purchasedItems)
+    public function getName()
     {
-        $this->purchasedItems = $purchasedItems;
+        return $this->name;
     }
 
     /**
-     * @return PurchaseItem[]
+     * @param string $name
+     * @return Product
      */
-    public function getPurchasedItems()
+    public function setName($name)
     {
-        return $this->purchasedItems;
+        $this->name = $name;
+        return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getAlternateName()
+    {
+        return $this->alternateName;
+    }
+
+    /**
+     * @param string $alternateName
+     * @return Product
+     */
+    public function setAlternateName($alternateName)
+    {
+        $this->alternateName = $alternateName;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     * @return Product
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDisambiguatingDescription()
+    {
+        return $this->disambiguatingDescription;
+    }
+
+    /**
+     * @param string $disambiguatingDescription
+     * @return Product
+     */
+    public function setDisambiguatingDescription($disambiguatingDescription)
+    {
+        $this->disambiguatingDescription = $disambiguatingDescription;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * @param string $url
+     * @return Product
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLogo()
+    {
+        return $this->logo;
+    }
+
+    /**
+     * @param mixed $logo
+     * @return Product
+     */
+    public function setLogo($logo)
+    {
+        $this->logo = $logo;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProvisionContactName()
+    {
+        return $this->provisionContactName;
+    }
+
+    /**
+     * @param string $provisionContactName
+     * @return Product
+     */
+    public function setProvisionContactName($provisionContactName)
+    {
+        $this->provisionContactName = $provisionContactName;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProvisionContactPhone()
+    {
+        return $this->provisionContactPhone;
+    }
+
+    /**
+     * @param string $provisionContactPhone
+     * @return Product
+     */
+    public function setProvisionContactPhone($provisionContactPhone)
+    {
+        $this->provisionContactPhone = $provisionContactPhone;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProvisionContactEmail()
+    {
+        return $this->provisionContactEmail;
+    }
+
+    /**
+     * @param string $provisionContactEmail
+     * @return Product
+     */
+    public function setProvisionContactEmail($provisionContactEmail)
+    {
+        $this->provisionContactEmail = $provisionContactEmail;
+        return $this;
+    }
+
+    /**
+     * Get images
+     *
+     * @return Image[]|ArrayCollection
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
+
+    /**
+     * @param Image $image
+     * @return $this
+     */
+    public function addImage(Image $image)
+    {
+        $this->images[] = $image;
+
+
+        return $this;
+    }
+
+    /**
+     * @param Image $image
+     * @return $this
+     */
+    public function removeImage(Image $image)
+    {
+        $this->images->removeElement($image);
+
+        return $this;
+    }
+
+    /**
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
+     */
+    public function setLogoFile(File $image = null)
+    {
+        $this->logoFile = $image;
+
+        if ($image) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTime('now');
+        }
+    }
+
+    /**
+     * @return File
+     */
+    public function getLogoFile()
+    {
+        return $this->logoFile;
+    }
+
 }

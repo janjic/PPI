@@ -11,6 +11,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ * @ORM\HasLifecycleCallbacks()
  * @Vich\Uploadable
  */
 class User extends BaseUser
@@ -22,12 +23,84 @@ class User extends BaseUser
      */
     protected $id;
 
+
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $firstName;
+
+
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $lastName;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $country;
+
+
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $city;
+
+
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $street;
+
+
+    /**
+     * @var string
+     * @ORM\Column(type="simple_array")
+     */
+    protected $phoneNumbers= array();
+
+    /**
+     *
+     * @var Project[]
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Project", inversedBy="directors")
+     * @ORM\JoinTable(name="project_directors")
+     */
+    private $projects;
+
     /**
      * @var Purchase[]
      *
      * @ORM\OneToMany(targetEntity="Purchase", mappedBy="buyer", cascade={"remove"})
      */
     private $purchases;
+
+
+    /**
+     * @var Image[]|ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Image", cascade={"all"})
+     * @ORM\JoinTable(name="user_images",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="image_id", referencedColumnName="id", unique=true)}
+     * )
+     */
+    private $images;
+
+
+    /**
+     * Get images
+     *
+     * @return Image[]|ArrayCollection
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
 
     /**
      * @var bool
@@ -40,7 +113,7 @@ class User extends BaseUser
      * It only stores the name of the file which stores the contract subscribed
      * by the user.
      *
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      *
      * @var string
      */
@@ -56,6 +129,26 @@ class User extends BaseUser
      */
     private $contractFile;
 
+    /**
+     * @var array
+     */
+    protected $files = array();
+
+    /**
+     * @ORM\Column(type="array")
+     */
+    private $paths = array();
+
+    public function getFiles()
+    {
+        return $this->files;
+    }
+    public function setFiles(array $files)
+    {
+        $this->files = $files;
+    }
+
+
     public function __toString()
     {
         return $this->username;
@@ -67,6 +160,9 @@ class User extends BaseUser
 
         $this->purchases = new ArrayCollection();
         $this->isActive = true;
+        $this->projects = new ArrayCollection();
+        $this->images = new ArrayCollection();
+        $this->paths= array();
     }
 
     /**
@@ -141,10 +237,147 @@ class User extends BaseUser
         return $this->contract;
     }
 
-    public function getRoles()
+
+    /**
+     * @return Project[]|ArrayCollection
+     */
+    public function getProjects()
     {
-        return $this->roles;
+        return $this->projects;
     }
+
+    /**
+     * @param $projects
+     */
+    public function setProjects($projects)
+    {
+        $this->projects->clear();
+        $this->projects = new ArrayCollection($projects);
+    }
+
+    /**
+     * @param Project $project
+     */
+    public function addProject($project)
+    {
+        if ($this->projects->contains($project)) {
+            return;
+        }
+
+        $this->projects->add($project);
+        $project->addDirector($this);
+    }
+
+    /**
+     * @param Project $project
+     */
+    public function removeProject($project)
+    {
+        if (!$this->projects->contains($project)) {
+            return;
+        }
+
+        $this->projects->removeElement($project);
+        $project->removeDirector($this);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * @param mixed $city
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * @param mixed $country
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @param mixed $firstName
+     */
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @param mixed $lastName
+     */
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPhoneNumbers()
+    {
+        return $this->phoneNumbers;
+    }
+
+    /**
+     * @param mixed $phoneNumbers
+     */
+    public function setPhoneNumbers($phoneNumbers)
+    {
+        $this->phoneNumbers = $phoneNumbers;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStreet()
+    {
+        return $this->street;
+    }
+
+    /**
+     * @param mixed $street
+     */
+    public function setStreet($street)
+    {
+        $this->street = $street;
+    }
+
+
 
     public function serialize()
     {
@@ -161,5 +394,52 @@ class User extends BaseUser
             $this->id,
             $this->username,
             $this->password) = unserialize($serialized);
+    }
+
+    /**
+     * @return string
+     */
+    public static function getUploadRootDir()
+    {
+        return __DIR__.'/../../../web/uploads/documents/users';
+
+    }
+
+    /**
+     * @ORM\PreFlush()
+     */
+    public function upload()
+    {
+        foreach($this->files as $file)
+        {
+            $path = sha1(uniqid(mt_rand(), true)).'.'.$file->guessExtension();
+            array_push ($this->paths, $path);
+            $file->move($this->getUploadRootDir(), $path);
+
+            unset($file);
+        }
+    }
+
+    /**
+     * @param Image $image
+     * @return $this
+     */
+    public function addImage(Image $image)
+    {
+        $this->images[] = $image;
+
+
+        return $this;
+    }
+
+    /**
+     * @param Image $image
+     * @return $this
+     */
+    public function removeImage(Image $image)
+    {
+        $this->images->removeElement($image);
+
+        return $this;
     }
 }
