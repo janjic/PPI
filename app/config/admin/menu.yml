@@ -19,3 +19,4 @@ easy_admin:
                   - { entity: 'Product', icon: 'plus-circle', label: 'menu.product.add', params: { action: 'new' } }
             - { label: 'menu.customer', entity: 'User', icon: 'users' }
             - { label: 'menu.purchase', entity: 'Purchase', icon: 'credit-card', params: { sortField: 'deliveryDate' } }
+            - { label: 'Add new PpiProduct', entity: 'PpiProduct' }

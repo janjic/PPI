@@ -5,6 +5,14 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 
 class AppKernel extends Kernel
 {
+
+    public function __construct($environment, $debug)
+    {
+        parent::__construct($environment, $debug);
+        $this->init();
+    }
+
+
     public function registerBundles()
     {
         $bundles = array(
@@ -40,16 +48,33 @@ class AppKernel extends Kernel
 
     public function getCacheDir()
     {
-        return dirname(__DIR__).'/var/cache/'.$this->getEnvironment();
+        return dirname(__DIR__) . '/var/cache/' . $this->getEnvironment();
     }
 
     public function getLogDir()
     {
-        return dirname(__DIR__).'/var/logs';
+        return dirname(__DIR__) . '/var/logs';
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');
+        $loader->load($this->getRootDir() . '/config/config_' . $this->getEnvironment() . '.yml');
     }
+
+    /**
+     * init function
+     */
+    public function init()
+    {
+        ini_set('display_errors', 1);
+        ini_set('memory_limit', -1);
+        error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
+        if ($this->debug) {
+            ini_set('display_errors', 1);
+            error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
+        } else {
+            ini_set('display_errors', 0);
+        }
+    }
+
 }
