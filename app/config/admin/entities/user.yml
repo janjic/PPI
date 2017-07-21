@@ -13,8 +13,8 @@ easy_admin:
             list:
                 title: 'Customers'
                 actions:
-                    - { name: 'edit', label: '', icon: 'edit' }
-                    - { name: 'delete', label: '', icon: 'trash' }
+                  - { name: 'edit', label: '', icon: 'edit' }
+                  - { name: 'delete', label: '', icon: 'trash' }
                 fields: ['id', 'isActive', 'username', 'email', 'roles', 'firstName', 'lastName', 'country', 'roles']
             form:
                 fields:
@@ -30,8 +30,8 @@ easy_admin:
                     - { property: 'country', type: 'country', type_options: { required: false } }
                     - { property: 'city', type: 'text', type_options: { required: false } }
                     - { property: 'street', type: 'text', type_options: { required: false } }
-                    - { property: 'phoneNumbers'}
                     - { type: 'group', label: 'Legal Information', icon: 'briefcase', css_class: 'col-sm-4' }
-                    - { property: 'contractFile', type: 'Vich\UploaderBundle\Form\Type\VichFileType' }
-                    - { type: 'group', label: 'Transactions History', icon: 'money', css_class: 'col-sm-12' }
-                    - { property: 'purchases', css_class: 'col-sm-12' }
+                    - { property: 'images', type: 'collection', type_options: { entry_type: 'AppBundle\Form\ImageType', by_reference: false }}
+                    - { property: 'phoneNumbers'}
+                    - { type: 'group', label: 'Projects included', icon: 'film', css_class: 'col-sm-12' }
+                    - { property: 'projects', css_class: 'col-sm-12' }

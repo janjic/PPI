@@ -10,6 +10,11 @@ easy_admin_bundle:
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 
+bnbc_upload:
+    resource: "@BnbcUploadBundle/Controller/"
+    type:     annotation
+    prefix:   /upload
+
 #fos_user_profile:
 #    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
 #    prefix: /profile

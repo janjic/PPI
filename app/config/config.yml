@@ -9,6 +9,7 @@ parameters:
     locale: en
     app.path.product_images: /uploads/images/products
     app.path.user_contracts: /uploads/files/user/contracts
+    app.path.user_images: /uploads/files/user/images
 
 framework:
     #esi:             ~
@@ -64,6 +65,9 @@ vich_uploader:
         product_images:
             uri_prefix: '%app.path.product_images%'
             upload_destination: '%kernel.root_dir%/../web/uploads/images/products'
+        user_images:
+          uri_prefix: '%app.path.user_images%'
+          upload_destination: '%kernel.root_dir%/../web/uploads/images/products'
         user_contracts:
             uri_prefix: '%app.path.user_contracts%'
             upload_destination: '%kernel.root_dir%/../web/uploads/files/user/contracts'
@@ -72,6 +76,12 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: AppBundle\Entity\User
+    from_email:
+      address: you@example.com
+      sender_name: You
+twig:
+    form_themes:
+            - BnbcUploadBundle:Form:fields.html.twig
 
 swiftmailer:
     transport: null

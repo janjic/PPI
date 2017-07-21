@@ -11,6 +11,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ * @ORM\HasLifecycleCallbacks()
  * @Vich\Uploadable
  */
 class User extends BaseUser
@@ -63,9 +64,6 @@ class User extends BaseUser
      */
     protected $phoneNumbers= array();
 
-
-
-
     /**
      *
      * @var Project[]
@@ -80,6 +78,29 @@ class User extends BaseUser
      * @ORM\OneToMany(targetEntity="Purchase", mappedBy="buyer", cascade={"remove"})
      */
     private $purchases;
+
+
+    /**
+     * @var Image[]|ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Image", cascade={"all"})
+     * @ORM\JoinTable(name="user_images",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="image_id", referencedColumnName="id", unique=true)}
+     * )
+     */
+    private $images;
+
+
+    /**
+     * Get images
+     *
+     * @return Image[]|ArrayCollection
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
 
     /**
      * @var bool
@@ -108,6 +129,26 @@ class User extends BaseUser
      */
     private $contractFile;
 
+    /**
+     * @var array
+     */
+    protected $files = array();
+
+    /**
+     * @ORM\Column(type="array")
+     */
+    private $paths = array();
+
+    public function getFiles()
+    {
+        return $this->files;
+    }
+    public function setFiles(array $files)
+    {
+        $this->files = $files;
+    }
+
+
     public function __toString()
     {
         return $this->username;
@@ -120,6 +161,8 @@ class User extends BaseUser
         $this->purchases = new ArrayCollection();
         $this->isActive = true;
         $this->projects = new ArrayCollection();
+        $this->images = new ArrayCollection();
+        $this->paths= array();
     }
 
     /**
@@ -222,7 +265,7 @@ class User extends BaseUser
         }
 
         $this->projects->add($project);
-        //$project->addDirector($this);
+        $project->addDirector($this);
     }
 
     /**
@@ -351,5 +394,52 @@ class User extends BaseUser
             $this->id,
             $this->username,
             $this->password) = unserialize($serialized);
+    }
+
+    /**
+     * @return string
+     */
+    public static function getUploadRootDir()
+    {
+        return __DIR__.'/../../../web/uploads/documents/users';
+
+    }
+
+    /**
+     * @ORM\PreFlush()
+     */
+    public function upload()
+    {
+        foreach($this->files as $file)
+        {
+            $path = sha1(uniqid(mt_rand(), true)).'.'.$file->guessExtension();
+            array_push ($this->paths, $path);
+            $file->move($this->getUploadRootDir(), $path);
+
+            unset($file);
+        }
+    }
+
+    /**
+     * @param Image $image
+     * @return $this
+     */
+    public function addImage(Image $image)
+    {
+        $this->images[] = $image;
+
+
+        return $this;
+    }
+
+    /**
+     * @param Image $image
+     * @return $this
+     */
+    public function removeImage(Image $image)
+    {
+        $this->images->removeElement($image);
+
+        return $this;
     }
 }
