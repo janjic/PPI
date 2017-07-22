@@ -21,6 +21,9 @@ class AppKernel extends Kernel
             new JavierEguiluz\Bundle\EasyAdminBundle\EasyAdminBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new Bnbc\UploadBundle\BnbcUploadBundle(),
+            new Liip\ImagineBundle\LiipImagineBundle(),
+            new Glavweb\UploaderBundle\GlavwebUploaderBundle(),
+            new Glavweb\UploaderDropzoneBundle\GlavwebUploaderDropzoneBundle(),
             new AppBundle\AppBundle(),
         );
 

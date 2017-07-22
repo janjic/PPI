@@ -7,11 +7,13 @@ use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Glavweb\UploaderBundle\Mapping\Annotation as Glavweb;
 
 /**
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @Glavweb\Uploadable
  * @Vich\Uploadable
  */
 class User extends BaseUser
@@ -29,6 +31,13 @@ class User extends BaseUser
      * @ORM\Column(type="string")
      */
     protected $firstName;
+
+
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean")
+     */
+    protected $isAdmin = false;
 
 
     /**
@@ -58,11 +67,13 @@ class User extends BaseUser
     protected $street;
 
 
+
+
     /**
      * @var string
-     * @ORM\Column(type="simple_array")
+     * @ORM\Column(type="string")
      */
-    protected $phoneNumbers= array();
+    protected $phones;
 
     /**
      *
@@ -81,26 +92,13 @@ class User extends BaseUser
 
 
     /**
-     * @var Image[]|ArrayCollection
+     * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Image", cascade={"all"})
-     * @ORM\JoinTable(name="user_images",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="image_id", referencedColumnName="id", unique=true)}
-     * )
+     * @ORM\ManyToMany(targetEntity="Glavweb\UploaderBundle\Entity\Media", inversedBy="entities", orphanRemoval=true)
+     * @ORM\OrderBy({"position" = "ASC"})
+     * @Glavweb\UploadableField(mapping="entity_images")
      */
     private $images;
-
-
-    /**
-     * Get images
-     *
-     * @return Image[]|ArrayCollection
-     */
-    public function getImages()
-    {
-        return $this->images;
-    }
 
     /**
      * @var bool
@@ -134,11 +132,46 @@ class User extends BaseUser
      */
     protected $files = array();
 
-    /**
-     * @ORM\Column(type="array")
-     */
-    private $paths = array();
 
+    /**
+     * User constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->purchases = new ArrayCollection();
+        $this->isActive = true;
+        $this->projects = new ArrayCollection();
+        $this->images = new ArrayCollection();
+    }
+
+
+
+    /**
+     * @return mixed
+     */
+    public function getPhones()
+    {
+        return $this->phones;
+    }
+
+    /**
+     * @param mixed $phones
+     */
+    public function setPhones($phones)
+    {
+        $this->phones = $phones;
+    }
+    /**
+     * Get images
+     *
+     * @return Image[]|ArrayCollection
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
     public function getFiles()
     {
         return $this->files;
@@ -152,17 +185,6 @@ class User extends BaseUser
     public function __toString()
     {
         return $this->username;
-    }
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->purchases = new ArrayCollection();
-        $this->isActive = true;
-        $this->projects = new ArrayCollection();
-        $this->images = new ArrayCollection();
-        $this->paths= array();
     }
 
     /**
@@ -345,21 +367,6 @@ class User extends BaseUser
         $this->lastName = $lastName;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPhoneNumbers()
-    {
-        return $this->phoneNumbers;
-    }
-
-    /**
-     * @param mixed $phoneNumbers
-     */
-    public function setPhoneNumbers($phoneNumbers)
-    {
-        $this->phoneNumbers = $phoneNumbers;
-    }
 
     /**
      * @return mixed
@@ -385,6 +392,7 @@ class User extends BaseUser
             $this->id,
             $this->username,
             $this->password,
+            $this->isAdmin
         ));
     }
 
@@ -393,7 +401,9 @@ class User extends BaseUser
         list(
             $this->id,
             $this->username,
-            $this->password) = unserialize($serialized);
+            $this->password,
+            $this->isAdmin
+            ) = unserialize($serialized);
     }
 
     /**
@@ -406,25 +416,10 @@ class User extends BaseUser
     }
 
     /**
-     * @ORM\PreFlush()
-     */
-    public function upload()
-    {
-        foreach($this->files as $file)
-        {
-            $path = sha1(uniqid(mt_rand(), true)).'.'.$file->guessExtension();
-            array_push ($this->paths, $path);
-            $file->move($this->getUploadRootDir(), $path);
-
-            unset($file);
-        }
-    }
-
-    /**
      * @param Image $image
      * @return $this
      */
-    public function addImage(Image $image)
+    public function addImage($image)
     {
         $this->images[] = $image;
 
@@ -436,10 +431,41 @@ class User extends BaseUser
      * @param Image $image
      * @return $this
      */
-    public function removeImage(Image $image)
+    public function removeImage($image)
     {
         $this->images->removeElement($image);
 
         return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        return $this->isAdmin;
+    }
+
+    /**
+     * @param bool $isAdmin
+     */
+    public function setIsAdmin($isAdmin)
+    {
+        $this->isAdmin = $isAdmin;
+    }
+
+
+    /**
+     * @ORM\PreFlush()
+     */
+    public function setToBeAdmin()
+    {
+        if ($this->hasRole('ROLE_ADMIN')) {
+            $this->isAdmin = true;
+
+        }
+    }
+
+
+
 }

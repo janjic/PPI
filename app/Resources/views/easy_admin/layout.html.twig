@@ -1,1 +1,20 @@
 {% extends '@EasyAdmin/default/layout.html.twig' %}
+
+
+{% block head_stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/app/stylesheets/jquery.tagsinput.css') }}">
+    <link  href="{{ asset('bundles/glavwebuploaderdropzone/splashscreen/splashscreen.css') }}" rel="stylesheet">
+    <link  href="{{ asset('bundles/glavwebuploaderdropzone/fields.css') }}" rel="stylesheet">
+{% endblock %}
+
+
+{% block head_javascript %}
+
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/jquery.tagsinput.min.js') }}"></script>
+    <script src="{{ asset('bundles/glavwebuploaderdropzone/splashscreen/jquery.splashscreen.js') }}"></script>
+    <script src="{{ asset('bundles/glavwebuploaderdropzone/dropzone.js') }}"></script>
+    <script src="{{ asset('bundles/glavwebuploaderdropzone/jquery.dropzone_uploader.js') }}"></script>
+    <script src="{{ asset('bundles/glavwebuploaderdropzone/fields.js') }}"></script>
+{% endblock head_javascript %}

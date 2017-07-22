@@ -1,3 +1,7 @@
+app_test:
+    resource: "@AppBundle/Controller/TestController.php"
+    type:     annotation
+
 _homepage:
     path: /
     defaults: { _controller: FrameworkBundle:Redirect:redirect, route: easyadmin, permanent: true }
@@ -10,10 +14,12 @@ easy_admin_bundle:
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 
-bnbc_upload:
-    resource: "@BnbcUploadBundle/Controller/"
-    type:     annotation
-    prefix:   /upload
+_liip_imagine:
+    resource: "@LiipImagineBundle/Resources/config/routing.xml"
+
+glavweb_uploader:
+    resource: "@GlavwebUploaderBundle/Resources/config/routing.yml"
+    prefix:   /
 
 #fos_user_profile:
 #    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
