@@ -109,7 +109,14 @@ glavweb_uploader:
             upload_directory:     "%kernel.root_dir%/../web/uploads/entity_images"
             upload_directory_url: "uploads/entity_images"
             max_size: 4194304 # 4Mb
-            allowed_mimetypes: ['image/jpeg', 'image/gif', 'image/png']
+        entity_videos:
+            providers :
+                - "glavweb_uploader.provider.image"
+            use_orphanage: true
+            upload_directory:     "%kernel.root_dir%/../web/uploads/entity_videos"
+            upload_directory_url: "uploads/entity_videos"
+            max_size: 400194304 # 4Mb
+            allowed_mimetypes: ['video/*']
 
     orphanage:
         lifetime: 86400
