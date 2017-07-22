@@ -19,9 +19,8 @@
 # (they are translated following the 1) method)
 # ------------------------------------------------------------------------------
 menu.category:     Categories
-menu.product:      Products
-menu.product.list: List Products
-menu.product.add:  Add Product
+menu.dashboard:    Dashboard
+
 menu.customer:     Customers
 menu.purchase:     Purchases
 menu.about:        About EasyAdmin
@@ -29,6 +28,40 @@ menu.about.home:   Project Home
 menu.about.docs:   Documentation
 menu.about.issues: Report Issues
 menu.project:      Projects
+
+
+menu.user:      Users
+menu.user.list: All users
+menu.user.add:  Add new user
+
+menu.project:      Project
+menu.project.list: All projects
+menu.project.add:  Add new project
+
+menu.location:  Locations
+menu.user.list: All locations
+menu.user.add:  Add new location
+
+menu.scene:      Scene
+menu.scene.list: All scenes
+menu.scene.add:  Add new scene
+
+menu.product:      Products
+menu.product.list: All Products
+menu.product.add:  Add new product
+
+
+menu.role:      Roles
+menu.role.list: All roles
+menu.role.add:  Add new roles
+
+menu.outfit:      Outfits
+menu.outfit.list: All outfits
+menu.outfit.add:  Add new outfit
+
+menu.category:      Categories
+menu.category.list: All categories
+menu.category.add:  Add new category
 
 # We let EasyAdmin generate the rest of the backend labels
 # (they are translated following the 2) method)

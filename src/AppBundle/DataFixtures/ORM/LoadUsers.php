@@ -32,6 +32,13 @@ class LoadUsers extends AbstractFixture implements OrderedFixtureInterface, Cont
         $user->setUsername('admin');
         $user->setEmail('branko.janjic@fsd.rs');
         $user->setRoles(array('ROLE_ADMIN'));
+        $user->setFirstName('admin');
+        $user->setLastName('admin');
+        $user->setCountry('Serbia');
+        $user->setCity('Belgrade');
+        $user->setStreet('Bulevar');
+        $user->setRoles(array('ROLE_ADMIN'));
+        $user->setPhoneNumbers(array('062356866'));
         $user->setEnabled(true);
         $user->setPassword($encoder->encodePassword($user, '1234'));
         $manager->persist($user);

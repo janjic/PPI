@@ -84,14 +84,6 @@ class User extends BaseUser
     private $projects;
 
     /**
-     * @var Purchase[]
-     *
-     * @ORM\OneToMany(targetEntity="Purchase", mappedBy="buyer", cascade={"remove"})
-     */
-    private $purchases;
-
-
-    /**
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="Glavweb\UploaderBundle\Entity\Media", inversedBy="entities", orphanRemoval=true)
@@ -209,22 +201,6 @@ class User extends BaseUser
     public function getIsActive()
     {
         return $this->isActive;
-    }
-
-    /**
-     * @param Purchase[] $purchases
-     */
-    public function setPurchases($purchases)
-    {
-        $this->purchases = $purchases;
-    }
-
-    /**
-     * @return Purchase[]
-     */
-    public function getPurchases()
-    {
-        return $this->purchases;
     }
 
     /**

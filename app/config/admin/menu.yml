@@ -11,12 +11,46 @@
 easy_admin:
     design:
         menu:
-            - label: 'menu.product'
-              icon: 'shopping-basket'
+#            - label: 'menu.dashboard'
+#              icon: 'cube'
+#              children:
+            - label: 'menu.user'
+              icon: 'users'
               children:
-                  - { entity: 'Product', icon: 'th-list', label: 'menu.product.list', params: { sortField: 'createdAt' }, default: true }
-                  - { entity: 'Category', icon: 'tags', label: 'menu.category' }
-                  - { entity: 'Project', icon: 'tags', label: 'menu.project' }
-                  - { entity: 'Product', icon: 'plus-circle', label: 'menu.product.add', params: { action: 'new' } }
-            - { label: 'menu.customer', entity: 'User', icon: 'users' }
-            - { label: 'menu.purchase', entity: 'Purchase', icon: 'credit-card', params: { sortField: 'deliveryDate' } }
+                - { entity: 'User', icon: 'th-list', label: 'menu.user.list', params: { sortField: 'id' }, default: true }
+                - { entity: 'User', icon: 'plus-circle', label: 'menu.user.add', params: { action: 'new' } }
+            - label: 'menu.project'
+              icon: 'tags'
+              children:
+                - { entity: 'Project', icon: 'th-list', label: 'menu.project.list', params: { sortField: 'id' }, default: true }
+                - { entity: 'Project', icon: 'plus-circle', label: 'menu.project.add', params: { action: 'new' } }
+            - label: 'menu.product'
+              icon: 'cube'
+              children:
+                - { entity: 'Product', icon: 'th-list', label: 'menu.product.list', params: { sortField: 'id' }, default: true }
+                - { entity: 'Product', icon: 'plus-circle', label: 'menu.product.add', params: { action: 'new' } }
+            - label: 'menu.category'
+              icon: 'tags'
+              children:
+                - { entity: 'Category', icon: 'th-list', label: 'menu.category.list', params: { sortField: 'id' }, default: true }
+                - { entity: 'Category', icon: 'plus-circle', label: 'menu.category.add', params: { action: 'new' } }
+            - label: 'menu.role'
+              icon: 'cube'
+              children:
+                - { entity: 'Role', icon: 'th-list', label: 'menu.role.list', params: { sortField: 'id' }, default: true }
+                - { entity: 'Role', icon: 'plus-circle', label: 'menu.role.add', params: { action: 'new' } }
+            - label: 'menu.location'
+              icon: 'location-arrow'
+              children:
+                - { entity: 'Location', icon: 'th-list', label: 'menu.location.list', params: { sortField: 'id' }, default: true }
+                - { entity: 'Location', icon: 'plus-circle', label: 'menu.location.add', params: { action: 'new' } }
+            - label: 'menu.outfit'
+              icon: 'cube'
+              children:
+                - { entity: 'Outfit', icon: 'th-list', label: 'menu.outfit.list', params: { sortField: 'id' }, default: true }
+                - { entity: 'Outfit', icon: 'plus-circle', label: 'menu.outfit.add', params: { action: 'new' } }
+            - label: 'menu.scene'
+              icon: 'map'
+              children:
+                - { entity: 'Scene', icon: 'th-list', label: 'menu.scene.list', params: { sortField: 'id' }, default: true }
+                - { entity: 'Scene', icon: 'plus-circle', label: 'menu.scene.add', params: { action: 'new' } }
