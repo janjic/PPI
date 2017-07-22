@@ -31,7 +31,7 @@ class Role
 
     /**
      * @var string
-     * @ORM\Column(name="alternate_name", type="string")
+     * @ORM\Column(name="alternate_name", type="string", nullable=true)
      */
     protected $alternateName;
 
@@ -505,6 +505,14 @@ class Role
         $this->outfits->removeElement($outfit);
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->name;
     }
 
 }

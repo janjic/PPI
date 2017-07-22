@@ -85,12 +85,20 @@ class Project
      **/
     protected $locations;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Scene", mappedBy="project")
+     */
+    private $scenes;
+
+
 
 
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->directors = new ArrayCollection();
+        $this->locations = new ArrayCollection();
+        $this->scenes = new ArrayCollection();
     }
 
 
@@ -266,6 +274,94 @@ class Project
 
         $this->directors->removeElement($user);
         $user->removeProject($this);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getScenes()
+    {
+        return $this->scenes;
+    }
+
+    /**
+     * @param mixed $scenes
+     * @return $this
+     */
+    public function setScenes($scenes)
+    {
+        $this->scenes = $scenes;
+
+        return $this;
+    }
+
+    /**
+     * @return Location[]
+     */
+    public function getLocations()
+    {
+        return $this->locations;
+    }
+
+    /**
+     * @param Location[] $locations
+     * @return $this
+     */
+    public function setLocations($locations)
+    {
+        $this->locations = $locations;
+
+        return $this;
+    }
+
+    /**
+     * @param Location $location
+     */
+    public function addLocation($location)
+    {
+        if ($this->locations->contains($location)) {
+            return;
+        }
+
+        $this->directors->add($location);
+    }
+
+    /**
+     * @param Location $location
+     */
+    public function removeLocation($location)
+    {
+        if (!$this->locations->contains($location)) {
+            return;
+        }
+
+        $this->locations->removeElement($location);
+    }
+
+    /**
+     * @param Scene $scene
+     */
+    public function addScene($scene)
+    {
+        if ($this->locations->contains($scene)) {
+            return;
+        }
+
+        $this->directors->add($scene);
+        $scene->setProject($this);
+    }
+
+    /**
+     * @param Scene $scene
+     */
+    public function removeScene($scene)
+    {
+        if (!$this->scenes->contains($scene)) {
+            return;
+        }
+
+        $this->scenes->removeElement($scene);
+        $scene->setProject(null);
     }
 
 

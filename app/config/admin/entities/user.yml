@@ -19,6 +19,7 @@ easy_admin:
             form:
                 fields:
                     - { type: 'group', label: 'Account Information', icon: 'user', css_class: 'col-sm-4' }
+                    - id
                     - { property: 'username' }
                     - { property: 'plainPassword', label: 'Password', type: 'text', type_options: { required: false } }
                     - { property: 'firstName', type: 'text', type_options: { required: true } }
@@ -35,3 +36,9 @@ easy_admin:
                     - { property: 'phoneNumbers'}
                     - { type: 'group', label: 'Projects included', icon: 'film', css_class: 'col-sm-12' }
                     - { property: 'projects', css_class: 'col-sm-12' }
+            new:
+                fields:
+                    - '-id'
+            edit:
+                fields:
+                    - { property: 'id', , type_options: { disabled: true }}

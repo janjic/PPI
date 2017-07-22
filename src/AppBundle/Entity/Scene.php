@@ -57,6 +57,12 @@ class Scene
     protected $location;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Project", inversedBy="scene")
+     * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
+     */
+    protected $project;
+
+    /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Role")
      * @ORM\JoinTable(name="scene_role",
      *      joinColumns={@ORM\JoinColumn(name="scene_id", referencedColumnName="id")},
@@ -264,4 +270,24 @@ class Scene
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getProject()
+    {
+        return $this->project;
+    }
+
+    /**
+     * @param mixed $project
+     * @return $this
+     */
+    public function setProject($project)
+    {
+        $this->project = $project;
+
+        return $this;
+    }
+
 }

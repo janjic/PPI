@@ -73,14 +73,6 @@ class User extends BaseUser
     private $projects;
 
     /**
-     * @var Purchase[]
-     *
-     * @ORM\OneToMany(targetEntity="Purchase", mappedBy="buyer", cascade={"remove"})
-     */
-    private $purchases;
-
-
-    /**
      * @var Image[]|ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Image", cascade={"all"})

@@ -7,7 +7,7 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
-    app.path.ppi_images: /uploads/images/ppi
+    app.path.ppi_images: /uploads/base/images
     app.path.product_images: /uploads/images/products
     app.path.user_contracts: /uploads/files/user/contracts
     app.path.user_images: /uploads/files/user/images
@@ -75,6 +75,8 @@ vich_uploader:
         base_images:
             uri_prefix: '%app.path.ppi_images%'
             upload_destination: '%kernel.root_dir%/../web/uploads/base/images'
+            namer:
+                service: vich_uploader.namer_uniqid
 
 fos_user:
     db_driver: orm

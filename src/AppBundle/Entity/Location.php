@@ -3,12 +3,18 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Class Location
  * @package AppBundle\Entity
  * @ORM\Table(name="location")
  * @ORM\Entity
+ * @Vich\Uploadable
+ * @Gedmo\Tree(type="nested")
+ * @ORM\Entity(repositoryClass="Gedmo\Tree\Entity\Repository\NestedTreeRepository")
  */
 class Location
 {
@@ -28,7 +34,7 @@ class Location
 
     /**
      * @var string
-     * @ORM\Column(name="alternate_name", type="string")
+     * @ORM\Column(name="alternate_name", type="string", nullable=true)
      */
     protected $alternateName;
 
@@ -40,7 +46,7 @@ class Location
 
     /**
      * @var string
-     * @ORM\Column(name="disambiguating_description", type="string")
+     * @ORM\Column(name="disambiguating_description", type="string", nullable=true)
      */
     protected $disambiguatingDescription;
 
@@ -52,16 +58,37 @@ class Location
 
     /**
      * @var Project[]
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Project", inversedBy="locations")
-     * @ORM\JoinTable(name="props")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Product")
+     * @ORM\JoinTable(name="location_product",
+     *      joinColumns={@ORM\JoinColumn(name="location_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="product_id", referencedColumnName="id")}
+     *      )
      */
     protected $props;
 
     /**
      * @var string
-     * @ORM\Column(name="branch_code", type="string")
+     * @ORM\Column(name="amenity_feature", type="string", nullable=true)
+     */
+    protected $amenityFeature;
+
+    /**
+     * @var string
+     * @ORM\Column(name="branch_code", type="string", nullable=true)
      */
     protected $branchCode;
+
+    /**
+     * @var string
+     * @ORM\Column(name="contained_in_place", type="string", nullable=true)
+     */
+    protected $containedInPlace;
+
+    /**
+     * @var string
+     * @ORM\Column(name="contains_place", type="string", nullable=true)
+     */
+    protected $containsPlace;
 
     /**
      * @var string
@@ -77,25 +104,37 @@ class Location
 
     /**
      * @var string
-     * @ORM\Column(name="elevation", type="string")
+     * @ORM\Column(name="address", type="string", nullable=true)
+     */
+    protected $address;
+
+    /**
+     * @var string
+     * @ORM\Column(name="address_country", type="string", nullable=true)
+     */
+    protected $addressCountry;
+
+    /**
+     * @var string
+     * @ORM\Column(name="elevation", type="string", nullable=true)
      */
     protected $elevation;
 
     /**
      * @var string
-     * @ORM\Column(name="latitude", type="string")
+     * @ORM\Column(name="latitude", type="string", nullable=true)
      */
     protected $latitude;
 
     /**
      * @var string
-     * @ORM\Column(name="longitude", type="string")
+     * @ORM\Column(name="longitude", type="string", nullable=true)
      */
     protected $longitude;
 
     /**
      * @var string
-     * @ORM\Column(name="postal_code", type="string")
+     * @ORM\Column(name="postal_code", type="string", nullable=true)
      */
     protected $postalCode;
 
@@ -104,6 +143,30 @@ class Location
      * @ORM\Column(name="global_location_number", type="string")
      */
     protected $globalLocationNumber;
+
+    /**
+     * @var string
+     * @ORM\Column(name="has_map", type="string", nullable=true)
+     */
+    protected $hasMap;
+
+    /**
+     * @var string
+     * @ORM\Column(name="isic_v4", type="string", nullable=true)
+     */
+    protected $isicV4;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string
+     */
+    protected $photo;
+
+    /**
+     * @Vich\UploadableField(mapping="base_images", fileNameProperty="photo")
+     * @var File
+     */
+    protected $imageFile;
 
     /**
      * @var string
@@ -130,27 +193,71 @@ class Location
 
     /**
      * @var string
+     * @ORM\Column(name="review", type="string", nullable=true)
+     */
+    protected $review;
+
+    /**
+     * @var string
      * @ORM\Column(name="smoking_allowed", type="boolean")
      */
     protected $smokingAllowed;
 
     /**
      * @var string
-     * @ORM\Column(name="location_contact_name", type="string")
+     * @ORM\Column(name="location_contact_name", type="string", nullable=true)
      */
     protected $locationContactName;
 
     /**
      * @var string
-     * @ORM\Column(name="location_contact_phone", type="simple_array")
+     * @ORM\Column(name="location_contact_phone", type="simple_array", nullable=true)
      */
     protected $locationContactPhone;
 
     /**
      * @var string
-     * @ORM\Column(name="location_contact_email", type="simple_array")
+     * @ORM\Column(name="location_contact_email", type="simple_array", nullable=true)
      */
     protected $locationContactEmail;
+
+    /**
+     * @Gedmo\TreeLeft
+     * @ORM\Column(type="integer")
+     */
+    private $lft;
+
+    /**
+     * @Gedmo\TreeLevel
+     * @ORM\Column(type="integer")
+     */
+    private $lvl;
+
+    /**
+     * @Gedmo\TreeRight
+     * @ORM\Column(type="integer")
+     */
+    private $rgt;
+
+    /**
+     * @Gedmo\TreeRoot
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Location")
+     * @ORM\JoinColumn(referencedColumnName="id", onDelete="CASCADE")
+     */
+    private $root;
+
+    /**
+     * @Gedmo\TreeParent
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Location", inversedBy="children")
+     * @ORM\JoinColumn(referencedColumnName="id", onDelete="CASCADE")
+     */
+    private $parent;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Location", mappedBy="parent")
+     * @ORM\OrderBy({"lft" = "ASC"})
+     */
+    private $children;
 
     /**
      * @return int
@@ -569,6 +676,214 @@ class Location
         $this->images->removeElement($image);
 
         return $this;
+    }
+
+    /**
+     * Set the parent category.
+     *
+     * @param Category $parent
+     */
+    public function setParent($parent)
+    {
+        $this->parent = $parent;
+    }
+
+    /**
+     * Get the parent category.
+     *
+     * @return Category
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAmenityFeature()
+    {
+        return $this->amenityFeature;
+    }
+
+    /**
+     * @param string $amenityFeature
+     * @return Location
+     */
+    public function setAmenityFeature($amenityFeature)
+    {
+        $this->amenityFeature = $amenityFeature;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContainedInPlace()
+    {
+        return $this->containedInPlace;
+    }
+
+    /**
+     * @param string $containedInPlace
+     * @return Location
+     */
+    public function setContainedInPlace($containedInPlace)
+    {
+        $this->containedInPlace = $containedInPlace;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContainsPlace()
+    {
+        return $this->containsPlace;
+    }
+
+    /**
+     * @param string $containsPlace
+     * @return Location
+     */
+    public function setContainsPlace($containsPlace)
+    {
+        $this->containsPlace = $containsPlace;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * @param string $address
+     * @return Location
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAddressCountry()
+    {
+        return $this->addressCountry;
+    }
+
+    /**
+     * @param string $addressCountry
+     * @return Location
+     */
+    public function setAddressCountry($addressCountry)
+    {
+        $this->addressCountry = $addressCountry;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHasMap()
+    {
+        return $this->hasMap;
+    }
+
+    /**
+     * @param string $hasMap
+     * @return Location
+     */
+    public function setHasMap($hasMap)
+    {
+        $this->hasMap = $hasMap;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIsicV4()
+    {
+        return $this->isicV4;
+    }
+
+    /**
+     * @param string $isicV4
+     * @return Location
+     */
+    public function setIsicV4($isicV4)
+    {
+        $this->isicV4 = $isicV4;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+
+    /**
+     * @param string $photo
+     * @return Location
+     */
+    public function setPhoto($photo)
+    {
+        $this->photo = $photo;
+        return $this;
+    }
+
+    /**
+     * @return File
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param File $imageFile
+     * @return Location
+     */
+    public function setImageFile($imageFile)
+    {
+        $this->imageFile = $imageFile;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReview()
+    {
+        return $this->review;
+    }
+
+    /**
+     * @param string $review
+     * @return Location
+     */
+    public function setReview($review)
+    {
+        $this->review = $review;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->name;
     }
 
 

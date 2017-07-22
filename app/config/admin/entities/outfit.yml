@@ -1,0 +1,42 @@
+easy_admin:
+    entities:
+        Outfit:
+            class: AppBundle\Entity\Outfit
+            label: 'Outfits'
+            list:
+                title: '%%entity_label%%'
+                actions:
+                    - { name: 'edit', label: '', icon: 'edit' }
+                    - { name: 'delete', label: '', icon: 'trash' }
+                fields:
+                    - 'id'
+                    - { property: 'name', label: 'Name' , template: '@App/table_text.html.twig'}
+                    - { property: 'description',  label: 'Description', template: '@App/table_text.html.twig' }
+
+            form:
+                fields:
+                    - { type: 'group', css_class: 'col-sm-8', label: 'Basic Details', icon: 'pencil' }
+                    - id
+                    - { property: 'name',                       label: 'Name', css_class: 'large' }
+                    - { property: 'description',                type: 'ckeditor', label: 'Description', css_class: 'large' }
+                    - { property: 'url',                        label: 'Url', css_class: 'large' }
+                    - { property: 'head', type: 'easyadmin_autocomplete' }
+                    - { property: 'glasses', type: 'easyadmin_autocomplete' }
+                    - { property: 'face', type: 'easyadmin_autocomplete' }
+                    - { property: 'neck', type: 'easyadmin_autocomplete' }
+                    - { property: 'upperBody', type: 'easyadmin_autocomplete' }
+                    - { property: 'lowerBody', type: 'easyadmin_autocomplete' }
+                    - { property: 'accessories', type: 'easyadmin_autocomplete' }
+                    - { property: 'shoes', type: 'easyadmin_autocomplete' }
+                    - { type: 'group', css_class: 'col-sm-4', label: 'Additional Details', icon: 'cube' }
+                    - { property: 'alternateName',              label: 'Alternate name', css_class: 'large' }
+                    - { property: 'disambiguatingDescription',  label: 'Disambiguating Description', css_class: 'large' }
+                    - { property: 'Gender', type: 'choice', type_options: { multiple: false, choices: { 'MALE': 'Male', 'FEMALE': 'Female' } } }
+            new:
+                fields:
+                    - '-id'
+            edit:
+                fields:
+                    - { property: 'id', , type_options: { disabled: true }}
+
+
