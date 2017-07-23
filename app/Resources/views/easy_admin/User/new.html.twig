@@ -1,0 +1,6 @@
+{% extends '@EasyAdmin/default/new.html.twig' %}
+
+{% block body_javascript %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/user.tags.input.js') }}"></script>
+{% endblock %}

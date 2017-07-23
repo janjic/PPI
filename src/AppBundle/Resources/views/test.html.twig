@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% block stylesheets %}
+    <link  href="{{ asset('bundles/glavwebuploaderdropzone/splashscreen/splashscreen.css') }}" rel="stylesheet">
+    <link  href="{{ asset('bundles/glavwebuploaderdropzone/fields.css') }}" rel="stylesheet">
+    {% endblock %}
+</head>
+<body>
+{% block javascripts %}
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+        crossorigin="anonymous"></script>
+<script src="{{ asset('bundles/glavwebuploaderdropzone/splashscreen/jquery.splashscreen.js') }}"></script>
+<script src="{{ asset('bundles/glavwebuploaderdropzone/dropzone.js') }}"></script>
+<script src="{{ asset('bundles/glavwebuploaderdropzone/jquery.dropzone_uploader.js') }}"></script>
+<script src="{{ asset('bundles/glavwebuploaderdropzone/fields.js') }}"></script>
+{% endblock %}
+
+{{ form(form) }}
+
+
+
+</body>
+</html>
