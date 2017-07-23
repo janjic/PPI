@@ -1,1 +1,4 @@
-{{ value|easyadmin_truncate(20) }}
+{% if value %}
+    {{ value|easyadmin_truncate(20) }}
+    {% else %}
+{% endif %}

@@ -22,7 +22,7 @@ easy_admin:
                     - { type: 'group', label: 'Account Information', icon: 'user', css_class: 'col-sm-4' }
                     - id
                     - { property: 'username' }
-                    - { property: 'plainPassword', label: 'Password', type: 'text', type_options: { required: false } }
+                    - { property: 'plainPassword', label: 'Password', type: 'text', type_options: { required: true } }
                     - { property: 'firstName', type: 'text', type_options: { required: true } }
                     - { property: 'lastName', type: 'text', type_options: { required: true } }
                     - { property: 'enabled' }
@@ -33,13 +33,16 @@ easy_admin:
                     - { property: 'city', type: 'text', type_options: { required: false } }
                     - { property: 'street', type: 'text', type_options: { required: false } }
                     - { property: 'phones'}
-                    - { type: 'group', label: 'Media Information', icon: 'image', css_class: 'col-sm-4' }
-                    - { property: 'images', type: 'Glavweb\UploaderDropzoneBundle\Form\ImageCollectionType', type_options: { label: 'Image Gallery', context: 'entity_images', by_reference: false  }}
+                    - { type: 'group', label: 'Images', icon: 'image', css_class: 'col-sm-4' }
+                    - { property: 'images', type: 'Glavweb\UploaderDropzoneBundle\Form\ImageCollectionType',  type_options: { label: ' ', context: 'entity_images', by_reference: false  }}
                     - { type: 'group', label: 'Projects included', icon: 'film', css_class: 'col-sm-12' }
                     - { property: 'projects', css_class: 'col-sm-12' }
+
             new:
                 fields:
                     - '-id'
+                    - { property: 'plainPassword', label: 'Password', type: 'text', type_options: { required: true } }
             edit:
                 fields:
                     - { property: 'id', , type_options: { disabled: true }}
+                    - { property: 'plainPassword', label: 'Password', type: 'text', type_options: { required: false } }

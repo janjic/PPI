@@ -25,11 +25,11 @@ easy_admin:
                     - id
                     - { property: 'name', label: 'Name', css_class: 'large' }
                     - { property: 'url',  label: 'Url', css_class: 'large' }
-                    - { property: 'description', type: 'ckeditor', label: 'Description', css_class: 'large' }
+                    - { property: 'description', type: 'ckeditor', label: 'Description', css_class: 'large', type_options: { required: true }}
                     - { property: 'alternateName',  label: 'Alternate name', css_class: 'large' }
                     - { property: 'disambiguatingDescription',  label: 'Disambiguating Description', css_class: 'large' }
-                    - { property: 'summary',  type: 'ckeditor' , label: 'Summary', css_class: 'large' }
-                    - { property: 'directors', type: 'easyadmin_autocomplete', label: 'Directors', type_options: { by_reference: false } }
+                    - { property: 'summary',  type: 'ckeditor' , label: 'Summary', css_class: 'large'}
+                    - { property: 'directors', type: 'easyadmin_autocomplete', css_class: 'directors_disable', label: 'Directors', type_options: {  by_reference: false } }
             new:
                 fields:
                     - '-id'

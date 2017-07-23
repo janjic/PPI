@@ -1,0 +1,10 @@
+{% extends '@EasyAdmin/default/list.html.twig' %}
+
+{% block main %}
+    {% if is_granted('ROLE_ADMIN') %}
+        {{ parent() }}
+    {% else %}
+        {% trans %}You don't have permission to see users list on system.{% endtrans %}
+    {% endif %}
+
+{% endblock %}

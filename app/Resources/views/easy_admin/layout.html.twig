@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{ asset('bundles/app/stylesheets/jquery.tagsinput.css') }}">
     <link  href="{{ asset('bundles/glavwebuploaderdropzone/splashscreen/splashscreen.css') }}" rel="stylesheet">
     <link  href="{{ asset('bundles/glavwebuploaderdropzone/fields.css') }}" rel="stylesheet">
+    <link  href="{{ asset('bundles/app/stylesheets/switchery.css') }}" rel="stylesheet">
 {% endblock %}
 
 
@@ -17,4 +18,13 @@
     <script src="{{ asset('bundles/glavwebuploaderdropzone/dropzone.js') }}"></script>
     <script src="{{ asset('bundles/glavwebuploaderdropzone/jquery.dropzone_uploader.js') }}"></script>
     <script src="{{ asset('bundles/glavwebuploaderdropzone/fields.js') }}"></script>
+    <script src="{{ asset('bundles/app/js/switchery.js') }}"></script>
 {% endblock head_javascript %}
+
+  {% block body_javascript %}
+      {{ parent() }}
+      {% if not app.request.get('action') == 'list' %}
+        <script src="{{ asset('bundles/app/js/custom.style.js') }}"></script>
+          {% endif %}
+
+  {% endblock body_javascript %}

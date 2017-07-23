@@ -1,0 +1,58 @@
+{% extends 'GlavwebUploaderDropzoneBundle:Form:fields.html.twig' %}
+
+{% block cms_media_image_collection_widget %}
+    {% set files = value is not empty ? value : {} %}
+
+    <div id="js-image-collection-form-type-{{ id }}" class="js-image-collection-form-type">
+        <div class="js-upload-preview-wrapper gwu-upload-preview-wrapper">
+
+            <div class="gwu-gallery-box-wr">
+                <div class="gwu-gallery-box">
+                    <img src="{{ asset('bundles/glavwebuploaderdropzone/images/image-upload-blank.jpg') }}" class="gwu-gallery-box__img" alt="{{ 'download_image_button'|trans }}" class="">
+                    <div class="gwu-gallery-box__overlay ">
+                        <div class="gwu-dt">
+                            <div class="gwu-dtc">
+                                <div class="gwu-gallery-upload-text">
+                                    <div class="js-control-bar-upload-image"><i class="fa fa-upload" aria-hidden="true"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'GlavwebUploaderDropzoneBundle:Form:dropzone_preview.html.twig' %}
+        {% include 'GlavwebUploaderDropzoneBundle:Form:splash-screen-content-template.html.twig' %}
+
+        <input type="hidden" id="{{ id }}" name="{{ full_name }}" value='{{ mediaData|json_encode(constant('JSON_UNESCAPED_UNICODE'))|raw }}' class="js-field-value gwu-control"/>
+    </div>
+
+    <script>
+        (function ($) {
+            var files = {% if files is not empty %}{{ files|json_encode(constant('JSON_UNESCAPED_UNICODE'))|raw }}{% else %}[]{% endif %};
+            var $wrapper                = $('#js-image-collection-form-type-{{ id }}');
+            var splashScreen            = $('body').splashScreen();
+            var editMediaContentFactory = $wrapper.find('.js-splash-screen-template').editMediaContentFactory({
+                requestId : "{{ requestId }}",
+                editUrl   : "{{ editUrl }}",
+                messages : {
+                    saveButtonLoadingText: "{{ 'splash_screen_save_button_loading'|trans }}"
+                }
+            });
+
+            $wrapper.imageCollectionFormType({
+                requestId               : "{{ requestId }}",
+                uploadUrl               : "{{ uploadUrl }}",
+                deleteUrl               : "{{ deleteUrl }}",
+                files                   : files,
+                splashScreen            : splashScreen,
+                editMediaContentFactory : editMediaContentFactory,
+                messages: {
+                    dictMaxFilesExceeded: "{{ 'uploader_dict_max_files_exceeded'|trans }}",
+                    serverError:          "{{ 'uploader_server_error'|trans }}"
+                }
+            });
+        })(jQuery);
+    </script>
+
+{% endblock %}
