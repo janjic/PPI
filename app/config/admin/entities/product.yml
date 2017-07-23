@@ -6,10 +6,10 @@ easy_admin:
             list:
                 fields:
                     - id
-                    - { property: 'logo', type: 'image', base_path: '%app.path.ppi_images%' }
                     - name
 #                    - alternateName
                     - description
+                    - cost
 #                    - disambiguatingDescription
 #                    - url
 #                    - provisionContactName
@@ -39,7 +39,8 @@ easy_admin:
                     - { property: 'additionalProperty' }
                     - { property: 'aggregateRating' }
                     - { property: 'audience' }
-                    - { property: 'logoFile', type: 'vich_image', label: 'Logo' }
+                    - { property: 'image', type: 'Glavweb\UploaderDropzoneBundle\Form\ImageType', type_options: { label: 'Logo', context: 'entity_images', by_reference: false  }}
+                    - { property: 'images', type: 'Glavweb\UploaderDropzoneBundle\Form\ImageCollectionType', type_options: { label: 'Product Images', context: 'entity_images', by_reference: false  }}
                     - { property: 'purchaseWorkflow', type: 'choice', type_options: { multiple: false, choices: { 'ORDERED': 'Ordered', 'DELIVERED': 'Delivered' } } }
                     - { property: 'deliveryDate', display_as: datepicker }
                     - { property: 'provision' }

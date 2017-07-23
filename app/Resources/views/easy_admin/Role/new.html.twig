@@ -1,0 +1,12 @@
+{% extends '@EasyAdmin/default/new.html.twig' %}
+
+{% block head_stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/app/stylesheets/venobox.css') }}">
+{% endblock %}
+
+
+{% block head_javascript %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/venobox.min.js') }}"></script>
+{% endblock head_javascript %}

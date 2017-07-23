@@ -86,7 +86,7 @@ class Project
     protected $locations;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Scene", mappedBy="project")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Scene", mappedBy="project", cascade={"all"})
      */
     private $scenes;
 

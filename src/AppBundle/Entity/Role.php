@@ -3,8 +3,10 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Glavweb\UploaderBundle\Entity\Media;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Glavweb\UploaderBundle\Mapping\Annotation as Glavweb;
 
 /**
  * Class Role
@@ -12,6 +14,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\Table(name="role")
  * @ORM\Entity
  * @Vich\Uploadable
+ * @Glavweb\Uploadable
  */
 class Role
 {
@@ -78,7 +81,7 @@ class Role
     protected $language;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @var string
      */
     protected $trailer;
@@ -90,16 +93,13 @@ class Role
     protected $trailerFile;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @var string
+     * @var Media
+     *
+     * @ORM\OneToOne(targetEntity="Glavweb\UploaderBundle\Entity\Media", orphanRemoval=true)
+     * @ORM\JoinColumn(name="image_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     * @Glavweb\UploadableField(mapping="entity_images")
      */
-    protected $photo;
-
-    /**
-     * @Vich\UploadableField(mapping="base_images", fileNameProperty="photo")
-     * @var File
-     */
-    protected $imageFile;
+    protected $image;
 
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Outfit")
@@ -362,42 +362,6 @@ class Role
     /**
      * @return mixed
      */
-    public function getPhoto()
-    {
-        return $this->photo;
-    }
-
-    /**
-     * @param mixed $photo
-     * @return Role
-     */
-    public function setPhoto($photo)
-    {
-        $this->photo = $photo;
-        return $this;
-    }
-
-    /**
-     * @return File
-     */
-    public function getImageFile()
-    {
-        return $this->imageFile;
-    }
-
-    /**
-     * @param File $imageFile
-     * @return Role
-     */
-    public function setImageFile($imageFile)
-    {
-        $this->imageFile = $imageFile;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getOutfits()
     {
         return $this->outfits;
@@ -506,6 +470,26 @@ class Role
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param mixed $image
+     * @return $this
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+        return $this;
+    }
+
+
 
     /**
      * @return string

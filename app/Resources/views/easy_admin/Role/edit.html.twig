@@ -1,0 +1,19 @@
+{% extends '@EasyAdmin/default/edit.html.twig' %}
+
+{% block head_stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('bundles/app/stylesheets/modal-video.min.css') }}">
+{% endblock %}
+
+
+{% block head_javascript %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/app/js/modal-video.min.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            $('.video-preview a[href]').each(function(){
+                $(this).modalvideo(new ModalVideoOptions());
+            });
+        });
+    </script>
+{% endblock head_javascript %}

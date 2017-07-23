@@ -3,14 +3,17 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Glavweb\UploaderBundle\Entity\Media;
 use Vich\UploaderBundle\Entity\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Glavweb\UploaderBundle\Mapping\Annotation as Glavweb;
 
 /**
  * Class Outfit.
  *
  * @ORM\Entity
  * @Vich\Uploadable
+ * @Glavweb\Uploadable
  */
 class Outfit
 {
@@ -147,15 +150,31 @@ class Outfit
     protected $gender;
 
     /**
-     * @var Image[]|ArrayCollection
+     * @var Media
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Image", cascade={"all"})
-     * @ORM\JoinTable(name="outfit_images",
-     *      joinColumns={@ORM\JoinColumn(name="outfit_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="image_id", referencedColumnName="id", unique=true)}
-     * )
+     * @ORM\OneToOne(targetEntity="Glavweb\UploaderBundle\Entity\Media", orphanRemoval=true)
+     * @ORM\JoinColumn(name="image_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     * @Glavweb\UploadableField(mapping="entity_images")
      */
-    private $images;
+    protected $image;
+
+    /**
+     * @return Media
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param Media $image
+     * @return Outfit
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+        return $this;
+    }
 
     /**
      * @return int
@@ -424,47 +443,6 @@ class Outfit
     public function setGender($gender)
     {
         $this->gender = $gender;
-        return $this;
-    }
-
-    /**
-     * @return Image[]|ArrayCollection
-     */
-    public function getImages()
-    {
-        return $this->images;
-    }
-
-    /**
-     * @param Image[]|ArrayCollection $images
-     * @return Outfit
-     */
-    public function setImages($images)
-    {
-        $this->images = $images;
-        return $this;
-    }
-
-    /**
-     * @param Image $image
-     * @return $this
-     */
-    public function addImage(Image $image)
-    {
-        $this->images[] = $image;
-
-
-        return $this;
-    }
-
-    /**
-     * @param Image $image
-     * @return $this
-     */
-    public function removeImage(Image $image)
-    {
-        $this->images->removeElement($image);
-
         return $this;
     }
 

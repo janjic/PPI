@@ -31,7 +31,8 @@ easy_admin:
                     - { type: 'group', css_class: 'col-sm-4', label: 'Additional Details', icon: 'cube' }
                     - { property: 'alternateName',              label: 'Alternate name', css_class: 'large' }
                     - { property: 'disambiguatingDescription',  label: 'Disambiguating Description', css_class: 'large' }
-                    - { property: 'Gender', type: 'choice', type_options: { multiple: false, choices: { 'MALE': 'Male', 'FEMALE': 'Female' } } }
+                    - { property: 'image', type: 'Glavweb\UploaderDropzoneBundle\Form\ImageType', type_options: { label: 'Image', context: 'entity_images', by_reference: false  }}
+                    - { property: 'gender', type: 'choice', type_options: { multiple: false, choices: { 'MALE': 'Male', 'FEMALE': 'Female' } } }
             new:
                 fields:
                     - '-id'

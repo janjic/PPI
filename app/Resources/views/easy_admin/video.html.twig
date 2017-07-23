@@ -1,5 +1,7 @@
 {% spaceless %}
     <div class="easyadmin-vich-image">
-        <video src="{{ asset(download_uri) }}">
+        <video controls>
+            <source src="{{ asset(download_uri) }}" >
+        </video>
     </div>
 {% endspaceless %}

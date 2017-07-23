@@ -14,8 +14,6 @@ easy_admin:
                     - { property: 'actor', label: 'Actor' , template: '@App/table_text.html.twig'}
                     - { property: 'description',  label: 'Description', template: '@App/table_text.html.twig' }
                     - { property: 'hobby', label: 'Hobby' , template: '@App/table_text.html.twig'}
-                    - { property: 'imageFile', type: 'image', base_path: '%app.path.ppi_images%' }
-                    - { property: 'trailerFile', type: 'image', base_path: '%app.path.ppi_images%' }
             form:
                 fields:
                     - { type: 'group', css_class: 'col-sm-8', label: 'Basic Details', icon: 'pencil' }
@@ -33,8 +31,8 @@ easy_admin:
                     - { type: 'group', css_class: 'col-sm-4', label: 'Additional Details', icon: 'cube' }
                     - { property: 'alternateName',              label: 'Alternate name', css_class: 'large' }
                     - { property: 'disambiguatingDescription',  label: 'Disambiguating Description', css_class: 'large' }
-                    - { property: 'imageFile',                  type: 'vich_image', label: 'Image' }
-                    - { property: 'trailerFile',                type: 'vich_image', label: 'Trailer', template: 'video.html.twig' }
+                    - { property: 'image', type: 'Glavweb\UploaderDropzoneBundle\Form\ImageType', type_options: { label: 'Image', context: 'entity_images', by_reference: false  }}
+                    - { property: 'trailerFile',                type: 'vich_image', label: 'Trailer' }
                     - { property: 'hobby',                      type: 'ckeditor' , label: 'Hobby', css_class: 'large' }
             new:
                 fields:

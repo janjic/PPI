@@ -3,9 +3,11 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Glavweb\UploaderBundle\Entity\Media;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Glavweb\UploaderBundle\Mapping\Annotation as Glavweb;
 
 /**
  * Class Location
@@ -15,6 +17,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @Vich\Uploadable
  * @Gedmo\Tree(type="nested")
  * @ORM\Entity(repositoryClass="Gedmo\Tree\Entity\Repository\NestedTreeRepository")
+ * @Glavweb\Uploadable
  */
 class Location
 {
@@ -157,16 +160,13 @@ class Location
     protected $isicV4;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @var string
+     * @var Media
+     *
+     * @ORM\OneToOne(targetEntity="Glavweb\UploaderBundle\Entity\Media", orphanRemoval=true)
+     * @ORM\JoinColumn(name="image_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     * @Glavweb\UploadableField(mapping="entity_images")
      */
-    protected $photo;
-
-    /**
-     * @Vich\UploadableField(mapping="base_images", fileNameProperty="photo")
-     * @var File
-     */
-    protected $imageFile;
+    protected $image;
 
     /**
      * @var string
@@ -825,38 +825,20 @@ class Location
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getPhoto()
+    public function getImage()
     {
-        return $this->photo;
+        return $this->image;
     }
 
     /**
-     * @param string $photo
-     * @return Location
+     * @param mixed $image
+     * @return $this
      */
-    public function setPhoto($photo)
+    public function setImage($image)
     {
-        $this->photo = $photo;
-        return $this;
-    }
-
-    /**
-     * @return File
-     */
-    public function getImageFile()
-    {
-        return $this->imageFile;
-    }
-
-    /**
-     * @param File $imageFile
-     * @return Location
-     */
-    public function setImageFile($imageFile)
-    {
-        $this->imageFile = $imageFile;
+        $this->image = $image;
         return $this;
     }
 
