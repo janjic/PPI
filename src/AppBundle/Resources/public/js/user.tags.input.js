@@ -7,4 +7,5 @@ $(function() {
     });
 
     $('#user_roles').prop('multiple', false);
+    // $('#user_plainPassword').prop('required', true);
 });

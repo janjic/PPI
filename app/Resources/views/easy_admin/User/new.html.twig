@@ -1,5 +1,14 @@
 {% extends '@EasyAdmin/default/new.html.twig' %}
 
+{% block main %}
+    {% if is_granted('ROLE_ADMIN') %}
+        {{ parent() }}
+    {% else %}
+        {% trans %}You don't have permission to add new user.{% endtrans %}
+    {% endif %}
+
+{% endblock %}
+
 {% block body_javascript %}
     {{ parent() }}
     <script src="{{ asset('bundles/app/js/user.tags.input.js') }}"></script>

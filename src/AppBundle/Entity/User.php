@@ -71,7 +71,7 @@ class User extends BaseUser
 
     /**
      * @var string
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $phones;
 
@@ -155,7 +155,6 @@ class User extends BaseUser
     {
         $this->phones = $phones;
     }
-
     /**
      * Get images
      *
@@ -165,12 +164,10 @@ class User extends BaseUser
     {
         return $this->images;
     }
-
     public function getFiles()
     {
         return $this->files;
     }
-
     public function setFiles(array $files)
     {
         $this->files = $files;
