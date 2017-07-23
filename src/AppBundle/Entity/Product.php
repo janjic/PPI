@@ -283,6 +283,12 @@ class Product
     protected $location;
 
     /**
+     * @var float
+     * @ORM\Column(name="cost", type="float")
+     */
+    protected $cost;
+
+    /**
      * @var string
      * @ORM\Column(name="provision_contact_name", type="string", nullable=true)
      */
@@ -1162,6 +1168,24 @@ class Product
     public function setLocation($location)
     {
         $this->location = $location;
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getCost()
+    {
+        return $this->cost;
+    }
+
+    /**
+     * @param float $cost
+     * @return Product
+     */
+    public function setCost($cost)
+    {
+        $this->cost = $cost;
         return $this;
     }
 

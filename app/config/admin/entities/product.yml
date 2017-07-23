@@ -31,6 +31,7 @@ easy_admin:
                     - { property: 'alternateName', css_class: 'large' }
                     - { property: 'disambiguatingDescription', type: 'ckeditor' }
                     - { type: 'divider' }
+                    - { property: 'cost', type: 'number' }
                     - { property: 'mainEntityOf' }
                     - { property: 'potentialAction' }
                     - { property: 'sameAs' }
