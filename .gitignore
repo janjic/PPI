@@ -31,3 +31,4 @@ web/uploads
 Vagrant.1/
 .idea
 composer.lock
+Vagrant/.vagrant
