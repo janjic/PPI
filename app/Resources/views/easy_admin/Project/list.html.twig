@@ -1,0 +1,11 @@
+{% extends '@EasyAdmin/default/list.html.twig' %}
+
+{% block item_actions %}
+    {% if not is_granted('ROLE_ADMIN') %}
+        {% set _list_item_actions = {'edit': _list_item_actions.edit} %}
+    {% endif %}
+
+    {{ parent() }}
+
+{% endblock item_actions %}
+

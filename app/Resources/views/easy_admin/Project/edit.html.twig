@@ -1,0 +1,13 @@
+{% extends '@EasyAdmin/default/edit.html.twig' %}
+
+
+        {% block body_javascript %}
+            {{ parent() }}
+                {% if not is_granted('ROLE_ADMIN') %}
+                    <script type="text/javascript">
+                        $(function() {
+                            $('.directors_disable').css( 'pointer-events', 'none' );
+                        });
+                    </script>
+                {% endif %}
+        {% endblock %}
