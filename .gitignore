@@ -30,3 +30,5 @@ web/uploads
 #.idea/workspace.xml
 Vagrant.1/
 .idea
+composer.lock
+Vagrant/.vagrant

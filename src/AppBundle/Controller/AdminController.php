@@ -2,8 +2,11 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Test;
 use AppBundle\Entity\User;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Glavweb\UploaderDropzoneBundle\Form\ImageCollectionType;
+use Glavweb\UploaderDropzoneBundle\Form\ImageType;
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController as EasyAdminController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -19,5 +22,29 @@ class AdminController extends EasyAdminController
     public function indexAction(Request $request)
     {
         return parent::indexAction($request);
+    }
+
+
+    /**
+     * @Route("/dropzoneTest", name="testDropzone")
+     */
+    public function testAction(Request $request)
+    {
+        $test = new Test();
+        $form = $this->createForm('AppBundle\Form\TestType', $test);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($test);
+            $em->flush();
+
+            return $this->redirectToRoute('test_show', array('id' => $test->getId()));
+        }
+
+        return $this->render('@App/test.html.twig', array(
+            'test' => $test,
+            'form' => $form->createView(),
+        ));
     }
 }

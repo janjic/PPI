@@ -11,7 +11,7 @@
 easy_admin:
     site_name: 'Prop identifier'
     design:
-        form_theme:   'vertical'
+        form_theme: 'custom_layout.html.twig'
         color_scheme: 'light'
         templates:
             field_simple_array: '@App/table_text.html.twig'

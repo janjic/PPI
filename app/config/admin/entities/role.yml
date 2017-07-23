@@ -34,7 +34,7 @@ easy_admin:
                     - { property: 'alternateName',              label: 'Alternate name', css_class: 'large' }
                     - { property: 'disambiguatingDescription',  label: 'Disambiguating Description', css_class: 'large' }
                     - { property: 'imageFile',                  type: 'vich_image', label: 'Image' }
-                    - { property: 'trailerFile',                type: 'vich_image', label: 'Trailer' }
+                    - { property: 'trailerFile',                type: 'vich_image', label: 'Trailer', template: 'video.html.twig' }
                     - { property: 'hobby',                      type: 'ckeditor' , label: 'Hobby', css_class: 'large' }
             new:
                 fields:

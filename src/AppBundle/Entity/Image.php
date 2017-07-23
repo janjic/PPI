@@ -6,12 +6,15 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Glavweb\UploaderBundle\Mapping\Annotation as Glavweb;
+
 
 /**
  * Image
  *
  * @ORM\Table
  * @ORM\Entity
+ * @Glavweb\Uploadable
  * @Vich\Uploadable
  */
 class Image

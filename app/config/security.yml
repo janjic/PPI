@@ -21,4 +21,4 @@ security:
 
     access_control:
         - { path: ^/admin/_css/, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/, role: ROLE_ADMIN }
+        - { path: ^/admin/, role: ROLE_USER }
