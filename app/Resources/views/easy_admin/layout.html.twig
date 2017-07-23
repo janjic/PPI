@@ -11,7 +11,6 @@
 
 
 {% block head_javascript %}
-
     {{ parent() }}
     <script src="{{ asset('bundles/app/js/jquery.tagsinput.min.js') }}"></script>
     <script src="{{ asset('bundles/glavwebuploaderdropzone/splashscreen/jquery.splashscreen.js') }}"></script>
@@ -22,9 +21,8 @@
 {% endblock head_javascript %}
 
   {% block body_javascript %}
-      {{ parent() }}
-      {% if not app.request.get('action') == 'list' %}
-        <script src="{{ asset('bundles/app/js/custom.style.js') }}"></script>
-          {% endif %}
 
-  {% endblock body_javascript %}
+      {{ parent() }}
+      <script src="{{ asset('bundles/app/js/custom.style.js') }}"></script>
+
+  {% endblock  %}
