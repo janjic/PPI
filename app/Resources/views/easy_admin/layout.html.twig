@@ -7,11 +7,43 @@
     <link  href="{{ asset('bundles/glavwebuploaderdropzone/splashscreen/splashscreen.css') }}" rel="stylesheet">
     <link  href="{{ asset('bundles/glavwebuploaderdropzone/fields.css') }}" rel="stylesheet">
     <link  href="{{ asset('bundles/app/stylesheets/switchery.css') }}" rel="stylesheet">
+    <style>
+        .js-image-collection-form-type:first-child  {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .js-upload-preview-wrapper>.gwu-gallery-box-wr {
+            width: 100%!important;
+        }
+        .js-upload-preview-wrapper>.gwu-gallery-box-wr.js-dropzone-file {
+            width: 33%!important;
+        }
+        .js-upload-preview-wrapper>.gwu-gallery-box-wr .gwu-gallery-box__overlay {
+            background-color: #FFF;
+            color:#ddd;
+            border: 1px solid #ddd;
+        }
+        .js-upload-preview-wrapper>.gwu-gallery-box-wr .gwu-gallery-box__overlay .js-control-bar-upload-image {
+            color: #DDD;
+        }
+        .js-upload-preview-wrapper>.gwu-gallery-box-wr.js-dropzone-file .gwu-gallery-box__overlay {
+            background-color: rgba(0,0,0,0.2);
+        }
+        .switch-change span {
+            margin-right: 10px;
+        }
+        .switch-change {
+            padding-left: 0;
+        }
+        .switch-change label {
+            font-weight:bold;
+        }
+    </style>
 {% endblock %}
 
 
 {% block head_javascript %}
-
     {{ parent() }}
     <script src="{{ asset('bundles/app/js/jquery.tagsinput.min.js') }}"></script>
     <script src="{{ asset('bundles/glavwebuploaderdropzone/splashscreen/jquery.splashscreen.js') }}"></script>
@@ -19,13 +51,13 @@
     <script src="{{ asset('bundles/glavwebuploaderdropzone/jquery.dropzone_uploader.js') }}"></script>
     <script src="{{ asset('bundles/glavwebuploaderdropzone/fields.js') }}"></script>
     <script src="{{ asset('bundles/app/js/switchery.js') }}"></script>
+
 {% endblock head_javascript %}
 
   {% block body_javascript %}
+
       {{ parent() }}
-      {% if not app.request.get('action') == 'list' %}
-        <script src="{{ asset('bundles/app/js/custom.style.js') }}"></script>
-      {% endif %}
+      <script src="{{ asset('bundles/app/js/custom.style.js') }}"></script>
 
       <script>
           $(document).ready(function()
@@ -58,3 +90,4 @@
       </script>
 
   {% endblock body_javascript %}
+  {% endblock  %}

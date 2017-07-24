@@ -1,5 +1,18 @@
+var urlParams;
+(window.onpopstate = function () {
+    var match,
+        pl     = /\+/g,  // Regex for replacing addition symbol with a space
+        search = /([^&=]+)=?([^&]*)/g,
+        decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+        query  = window.location.search.substring(1);
 
-$('input:checkbox').addClass('js-switch');
-Array.prototype.slice.call(document.querySelectorAll('.js-switch')).forEach(function(html) {
-    new Switchery(html);
-});
+    urlParams = {};
+    while (match = search.exec(query))
+        urlParams[decode(match[1])] = decode(match[2]);
+    if (urlParams.action !== 'list')  {
+        $('input:checkbox').addClass('js-switch');
+        Array.prototype.slice.call(document.querySelectorAll('.js-switch')).forEach(function(html) {
+            new Switchery(html);
+        });
+    }
+})();

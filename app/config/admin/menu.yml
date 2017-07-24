@@ -14,16 +14,16 @@ easy_admin:
 #            - label: 'menu.dashboard'
 #              icon: 'cube'
 #              children:
-            - label: 'menu.user'
-              icon: 'users'
-              children:
-                - { entity: 'User', icon: 'th-list', label: 'menu.user.list', params: { sortField: 'id' }, default: true }
-                - { entity: 'User', icon: 'plus-circle', label: 'menu.user.add', params: { action: 'new' } }
             - label: 'menu.project'
               icon: 'tags'
               children:
                 - { entity: 'Project', icon: 'th-list', label: 'menu.project.list', params: { sortField: 'id' }, default: true }
                 - { entity: 'Project', icon: 'plus-circle', label: 'menu.project.add', params: { action: 'new' } }
+            - label: 'menu.user'
+              icon: 'users'
+              children:
+                - { entity: 'User', icon: 'th-list', label: 'menu.user.list', params: { sortField: 'id' }, default: true }
+                - { entity: 'User', icon: 'plus-circle', label: 'menu.user.add', params: { action: 'new' } }
             - label: 'menu.product'
               icon: 'cube'
               children:
