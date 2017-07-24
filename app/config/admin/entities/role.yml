@@ -14,28 +14,26 @@ easy_admin:
                     - { property: 'actor', label: 'Actor' , template: '@App/table_text.html.twig'}
                     - { property: 'description',  label: 'Description', template: '@App/table_text.html.twig' }
                     - { property: 'hobby', label: 'Hobby' , template: '@App/table_text.html.twig'}
-                    - { property: 'imageFile', type: 'image', base_path: '%app.path.ppi_images%' }
-                    - { property: 'trailerFile', type: 'image', base_path: '%app.path.ppi_images%' }
             form:
                 fields:
-                    - { type: 'group', css_class: 'col-sm-6', label: 'Basic Details', icon: 'pencil' }
+                    - { type: 'group', css_class: 'col-sm-8', label: 'Basic Details', icon: 'pencil' }
                     - id
-                    - { property: 'name',                       label: 'Name'}
+                    - { property: 'name',                       label: 'Name', css_class: 'large' }
                     - { property: 'description',                type: 'ckeditor', label: 'Description', css_class: 'large' }
-                    - { property: 'url',                        label: 'Url' }
-                    - { property: 'actor',                      label: 'Actor' }
-                    - { property: 'age',                        label: 'Age'}
+                    - { property: 'url',                        label: 'Url', css_class: 'large' }
+                    - { property: 'actor',                      label: 'Actor', css_class: 'large' }
+                    - { property: 'age',                        label: 'Age', css_class: 'large' }
                     - { property: 'countryOfOrigin' }
                     - { property: 'agentCompany' }
-                    - { property: 'appearance',                 type: 'ckeditor' , label: 'Appearance' }
+                    - { property: 'appearance',                 type: 'ckeditor' , label: 'Appearance', css_class: 'large' }
                     - { property: 'gender',                     type: 'choice', type_options: { multiple: false, choices: { 'MALE': 'Male', 'FEMALE': 'Female' } } }
                     - { property: 'outfits',                    type: 'easyadmin_autocomplete', label: 'Outfits' }
-                    - { type: 'group', css_class: 'col-sm-6', label: 'Additional Details', icon: 'cube' }
-                    - { property: 'alternateName',              label: 'Alternate name'}
-                    - { property: 'disambiguatingDescription',  label: 'Disambiguating Description' }
-                    - { property: 'imageFile',                  type: 'vich_image', label: 'Image' }
-                    - { property: 'trailerFile',                type: 'vich_image', label: 'Trailer', template: 'video.html.twig' }
-                    - { property: 'hobby',                      type: 'ckeditor' , label: 'Hobby' }
+                    - { type: 'group', css_class: 'col-sm-4', label: 'Additional Details', icon: 'cube' }
+                    - { property: 'alternateName',              label: 'Alternate name', css_class: 'large' }
+                    - { property: 'disambiguatingDescription',  label: 'Disambiguating Description', css_class: 'large' }
+                    - { property: 'image', type: 'Glavweb\UploaderDropzoneBundle\Form\ImageType', type_options: { label: 'Image', context: 'entity_images', by_reference: false  }}
+                    - { property: 'trailerFile',                type: 'vich_image', label: 'Trailer' }
+                    - { property: 'hobby',                      type: 'ckeditor' , label: 'Hobby', css_class: 'large' }
             new:
                 fields:
                     - '-id'

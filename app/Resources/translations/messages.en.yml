@@ -107,6 +107,8 @@ Tags: Tags
 Total: Total
 Username: Username
 
+download_image_button: Upload Image
+
 # help messages
 EAN-13 valid code. Leave empty if unknown.: EAN-13 valid code. Leave empty if unknown.
 Reserved for administrators use: Reserved for administrators use

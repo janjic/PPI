@@ -6,7 +6,6 @@ easy_admin:
             list:
                 title: '%%entity_label%%'
                 actions:
-                    - { name: 'show', label: '', icon: 'search' }
                     - { name: 'edit', label: '', icon: 'edit' }
                     - { name: 'delete', label: '', icon: 'trash' }
                 fields:
@@ -14,12 +13,6 @@ easy_admin:
                     - { property: 'name', label: 'Label' }
                     - { property: 'parent', label: 'Parent category' }
                     - 'products'
-            show:
-                fields:
-                    - 'id'
-#                    - { property: 'name', label: 'Label', css_class: 'large' }
-#                    - { property: 'parent', label: 'Parent category' }
-#                    - 'products'
             form:
                 fields:
                     - { type: 'group', css_class: 'col-sm-6', label: 'Basic Details', icon: 'pencil' }
@@ -40,6 +33,7 @@ easy_admin:
                     - { type: 'group', css_class: 'col-sm-6', label: 'Additional Details', icon: 'cube' }
                     - { property: 'alternateName' }
                     - { property: 'disambiguatingDescription', type: 'ckeditor' }
+                    - { property: 'image', type: 'Glavweb\UploaderDropzoneBundle\Form\ImageType', type_options: { label: 'Image', context: 'entity_images', by_reference: false  }}
                     - { property: 'branchCode' }
                     - { property: 'containedInPlace' }
                     - { property: 'containsPlace' }

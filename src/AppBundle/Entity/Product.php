@@ -3,15 +3,19 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Glavweb\UploaderBundle\Entity\Media;
 use Vich\UploaderBundle\Entity\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\UploadedFile as UploadedFile;
+use Glavweb\UploaderBundle\Mapping\Annotation as Glavweb;
 
 /**
  * Class Product.
  *
  * @ORM\Entity
  * @Vich\Uploadable
+ * @Glavweb\Uploadable
+ * @ORM\HasLifecycleCallbacks()
  */
 class Product
 {
@@ -53,17 +57,6 @@ class Product
      * @ORM\Column(name="disambiguating_description", type="string", nullable=true)
      */
     protected $disambiguatingDescription;
-
-    /**
-     * @var Image[]|ArrayCollection
-     *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Image", cascade={"all"})
-     * @ORM\JoinTable(name="product_images",
-     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="image_id", referencedColumnName="id", unique=true)}
-     * )
-     */
-    private $images;
 
     /**
      * @var string
@@ -120,16 +113,22 @@ class Product
     protected $brand;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @var string
+     * @var Media
+     *
+     * @ORM\OneToOne(targetEntity="Glavweb\UploaderBundle\Entity\Media", orphanRemoval=true)
+     * @ORM\JoinColumn(name="image_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     * @Glavweb\UploadableField(mapping="entity_images")
      */
-    protected $logo;
+    protected $image;
 
     /**
-     * @Vich\UploadableField(mapping="base_images", fileNameProperty="logo")
-     * @var File $logoFile
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Glavweb\UploaderBundle\Entity\Media", inversedBy="entities", orphanRemoval=true)
+     * @ORM\OrderBy({"position" = "ASC"})
+     * @Glavweb\UploadableField(mapping="entity_images")
      */
-    protected $logoFile;
+    private $images;
 
     /**
      * @var Category[]
@@ -150,7 +149,7 @@ class Product
      * The creation date of the product.
      *
      * @var \DateTime
-     * @ORM\Column(type="datetime", name="updated_at")
+     * @ORM\Column(type="datetime", name="updated_at", nullable=true)
      */
     private $updatedAt;
 
@@ -189,11 +188,6 @@ class Product
      */
     private $isAccessoryOrSparePartFor;
 
-//    /**
-//     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Product",  mappedBy="isAccessoryOrSparePartFor")
-//     */
-//    private $forAccessoryOrSparePartFor;
-
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Product")
      * @ORM\JoinTable(name="product_consumable_of",
@@ -203,11 +197,6 @@ class Product
      */
     private $isConsumableFor;
 
-//    /**
-//     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Product",  mappedBy="isConsumableFor")
-//     */
-//    private $forConsumableFor;
-
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Product")
      * @ORM\JoinTable(name="product_similar_of",
@@ -216,11 +205,6 @@ class Product
      * )
      */
     private $isSimilarTo;
-
-//    /**
-//     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Product",  mappedBy="isSimilarTo")
-//     */
-//    private $forSimilarTo;
 
     /**
      * @var string
@@ -283,6 +267,12 @@ class Product
     protected $location;
 
     /**
+     * @var float
+     * @ORM\Column(name="cost", type="float")
+     */
+    protected $cost;
+
+    /**
      * @var string
      * @ORM\Column(name="provision_contact_name", type="string", nullable=true)
      */
@@ -308,21 +298,8 @@ class Product
         $this->isAccessoryOrSparePartFor = new ArrayCollection();
         $this->isConsumableFor = new ArrayCollection();
         $this->isSimilarTo = new ArrayCollection();
-//        $this->forAccessoryOrSparePartFor = new ArrayCollection();
-//        $this->forConsumableFor = new ArrayCollection();
-//        $this->forSimilarTo = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
-
-//    /**
-//     * @param Product $entity
-//     * @return $this
-//     */
-//    public function addForAccessoryOrSparePartFor($entity)
-//    {
-//        $this->forAccessoryOrSparePartFor->add($entity);
-//
-//        return $this;
-//    }
 
     /**
      * @param Product $product
@@ -331,21 +308,9 @@ class Product
     public function addIsAccessoryOrSparePartFor($product)
     {
         $this->isAccessoryOrSparePartFor->add($product);
-//        $product->addForAccessoryOrSparePartFor($this);
 
         return $this;
     }
-
-//    /**
-//     * @param Product $entity
-//     * @return $this
-//     */
-//    public function addForConsumableFor($entity)
-//    {
-//        $this->forConsumableFor->add($entity);
-//
-//        return $this;
-//    }
 
     /**
      * @param Product $product
@@ -354,21 +319,9 @@ class Product
     public function addIsConsumableFor($product)
     {
         $this->isConsumableFor->add($product);
-//        $product->addForConsumableFor($this);
 
         return $this;
     }
-
-//    /**
-//     * @param Product $entity
-//     * @return $this
-//     */
-//    public function addForSimilarTo($entity)
-//    {
-//        $this->forSimilarTo->add($entity);
-//
-//        return $this;
-//    }
 
     /**
      * @param Product $product
@@ -377,7 +330,6 @@ class Product
     public function addIsSimilarTo($product)
     {
         $this->isSimilarTo->add($product);
-//        $product->addForSimilarTo($this);
 
         return $this;
     }
@@ -535,24 +487,6 @@ class Product
     }
 
     /**
-     * @return mixed
-     */
-    public function getLogo()
-    {
-        return $this->logo;
-    }
-
-    /**
-     * @param mixed $logo
-     * @return Product
-     */
-    public function setLogo($logo)
-    {
-        $this->logo = $logo;
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getProvisionContactName()
@@ -620,7 +554,7 @@ class Product
      * @param Image $image
      * @return $this
      */
-    public function addImage(Image $image)
+    public function addImage($image)
     {
         $this->images[] = $image;
 
@@ -632,33 +566,11 @@ class Product
      * @param Image $image
      * @return $this
      */
-    public function removeImage(Image $image)
+    public function removeImage($image)
     {
         $this->images->removeElement($image);
 
         return $this;
-    }
-
-    /**
-     * @param mixed $image
-     */
-    public function setLogoFile($image = null)
-    {
-        $this->logoFile = $image;
-
-        if ($image) {
-            // It is required that at least one field changes if you are using doctrine
-            // otherwise the event listeners won't be called and the file is lost
-            $this->updatedAt = new \DateTime('now');
-        }
-    }
-
-    /**
-     * @return File
-     */
-    public function getLogoFile()
-    {
-        return $this->logoFile;
     }
 
     /**
@@ -1163,6 +1075,51 @@ class Product
     {
         $this->location = $location;
         return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getCost()
+    {
+        return $this->cost;
+    }
+
+    /**
+     * @param float $cost
+     * @return Product
+     */
+    public function setCost($cost)
+    {
+        $this->cost = $cost;
+        return $this;
+    }
+
+    /**
+     * @return Media
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param Media $image
+     * @return $this
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PreUpdate()
+     */
+    public function setToBeAdmin()
+    {
+        $this->updatedAt = new \DateTime();
     }
 
     /**
