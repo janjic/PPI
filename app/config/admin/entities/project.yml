@@ -5,7 +5,7 @@ easy_admin:
             controller: AppBundle\Controller\Admin\ProjectController
             label: 'Projects'
             list:
-                title: 'Project %%entity_label%%'
+                title: '%%entity_label%%'
                 actions:
                     - { name: 'edit', label: '', icon: 'edit' }
                     - { name: 'delete', label: '', icon: 'trash' }
@@ -13,26 +13,22 @@ easy_admin:
                     - 'id'
                     - { property: 'name', label: 'Name' , template: '@App/table_text.html.twig'}
                     - { property: 'url',  label: 'Url' , template: '@App/table_text.html.twig'}
-                    - { property: 'description',  label: 'Description', template: '@App/table_text.html.twig' }
+#                    - { property: 'description',  label: 'Description', template: '@App/table_text.html.twig' }
                     - { property: 'alternateName', label: 'Alternate name', template: '@App/table_text.html.twig' }
                     - { property: 'disambiguatingDescription', label: 'Disambiguating Description', template: '@App/table_text.html.twig'}
-                    - { property: 'summary', label: 'Summary' , template: '@App/table_text.html.twig'}
+#                    - { property: 'summary', label: 'Summary' , template: '@App/table_text.html.twig'}
                     - 'directors'
 
             form:
                 fields:
-                    - { type: 'group', css_class: 'col-sm-10' }
-                    - id
-                    - { property: 'name', label: 'Name', css_class: 'large' }
-                    - { property: 'url',  label: 'Url', css_class: 'large' }
-                    - { property: 'description', type: 'ckeditor', label: 'Description', css_class: 'large', type_options: { required: true }}
-                    - { property: 'alternateName',  label: 'Alternate name', css_class: 'large' }
-                    - { property: 'disambiguatingDescription',  label: 'Disambiguating Description', css_class: 'large' }
-                    - { property: 'summary',  type: 'ckeditor' , label: 'Summary', css_class: 'large'}
+                    - { type: 'group', css_class: 'col-sm-6', label: 'Basic Details', icon: 'pencil' }
+                    - { property: 'id', type_options: { disabled: true }}
+                    - { property: 'name', label: 'Name' }
+                    - { property: 'url',  label: 'Url' }
+                    - { type: 'group', css_class: 'col-sm-6', label: 'Additional Details', icon: 'film' }
+                    - { property: 'alternateName',  label: 'Alternate name' }
+                    - { property: 'disambiguatingDescription',  label: 'Disambiguating Description' }
                     - { property: 'directors', type: 'easyadmin_autocomplete', css_class: 'directors_disable', label: 'Directors', type_options: {  by_reference: false } }
-            new:
-                fields:
-                    - '-id'
-            edit:
-                fields:
-                    - { property: 'id', , type_options: { disabled: true }}
+                    - { type: 'group', css_class: 'col-sm-12', label: 'Info', icon: 'cube' }
+                    - { property: 'description', type: 'ckeditor', label: 'Description', type_options: { required: true }}
+                    - { property: 'summary',  type: 'ckeditor' , label: 'Summary'}

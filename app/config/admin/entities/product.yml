@@ -23,12 +23,12 @@ easy_admin:
                     - description
             form:
                 fields:
-                    - { type: 'group', css_class: 'col-sm-8', label: 'Basic information', icon: 'pencil' }
-                    - id
-                    - { property: 'name', css_class: 'large' }
+                    - { type: 'group', css_class: 'col-sm-10', label: 'Product details', icon: 'pencil' }
+                    - { property: 'id', type_options: { disabled: true }}
+                    - { property: 'name'}
                     - { property: 'description', type: 'ckeditor' }
                     - { type: 'divider' }
-                    - { property: 'alternateName', css_class: 'large' }
+                    - { property: 'alternateName' }
                     - { property: 'disambiguatingDescription', type: 'ckeditor' }
                     - { type: 'divider' }
                     - { property: 'cost', type: 'number' }
@@ -55,8 +55,7 @@ easy_admin:
                     - { property: 'isConsumableFor', type: 'easyadmin_autocomplete' }
                     - { property: 'isSimilarTo', type: 'easyadmin_autocomplete' }
                     - { property: 'categories', type: 'easyadmin_autocomplete' }
-                    - { type: 'group', css_class: 'col-sm-4', label: 'Product Details', icon: 'cube' }
-                    - { type: 'section', label: 'Advanced Settings', icon: 'warning', help: 'Reserved for administrators use' }
+#                    - { type: 'section', label: 'Advanced Settings', icon: 'warning', help: 'Reserved for administrators use' }
 #                    - { property: 'createdAt' }
 #                    - { type: 'group', css_class: 'col-sm-8 new-row' }
                     - { property: 'award' }
@@ -71,9 +70,3 @@ easy_admin:
                     - { property: 'review' }
                     - { property: 'weight' }
                     - { property: 'width' }
-            new:
-                fields:
-                    - '-id'
-            edit:
-                fields:
-                    - { property: 'id', , type_options: { disabled: true }}

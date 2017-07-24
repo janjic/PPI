@@ -25,7 +25,8 @@
         "bnbc/upload-bundle": "dev-master",
         "stof/doctrine-extensions-bundle": "^1.2",
         "liip/imagine-bundle": "^1.8",
-        "glavweb/uploader-dropzone-bundle": "^1.0"
+        "glavweb/uploader-dropzone-bundle": "^1.0",
+        "yavin/symfony-form-tree": "^1.0"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle"     : "^2.3",

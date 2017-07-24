@@ -16,30 +16,26 @@ easy_admin:
                     - { property: 'hobby', label: 'Hobby' , template: '@App/table_text.html.twig'}
             form:
                 fields:
-                    - { type: 'group', css_class: 'col-sm-8', label: 'Basic Details', icon: 'pencil' }
-                    - id
-                    - { property: 'name',                       label: 'Name', css_class: 'large' }
-                    - { property: 'description',                type: 'ckeditor', label: 'Description', css_class: 'large' }
-                    - { property: 'url',                        label: 'Url', css_class: 'large' }
-                    - { property: 'actor',                      label: 'Actor', css_class: 'large' }
-                    - { property: 'age',                        label: 'Age', css_class: 'large' }
+                    - { type: 'group', css_class: 'col-sm-6', label: 'Basic Details', icon: 'pencil' }
+                    - { property: 'id', type_options: { disabled: true }}
+                    - { property: 'name',                       label: 'Name'}
+                    - { property: 'description',                type: 'ckeditor', label: 'Description' }
+                    - { property: 'disambiguatingDescription',  label: 'Disambiguating Description' }
+                    - { property: 'url',                        label: 'Url' }
+                    - { property: 'appearance',                 type: 'ckeditor' , label: 'Appearance' }
+                    - { type: 'group', css_class: 'col-sm-6',   label: 'Additional Details', icon: 'cube' }
+                    - { property: 'alternateName',              label: 'Alternate name' }
+                    - { property: 'language' }
+                    - { property: 'hobby',                      type: 'ckeditor' , label: 'Hobby' }
+                    - { property: 'actor',                      label: 'Actor' }
+                    - { property: 'age',                        label: 'Age' }
                     - { property: 'countryOfOrigin' }
                     - { property: 'agentCompany' }
-                    - { property: 'appearance',                 type: 'ckeditor' , label: 'Appearance', css_class: 'large' }
                     - { property: 'gender',                     type: 'choice', type_options: { multiple: false, choices: { 'MALE': 'Male', 'FEMALE': 'Female' } } }
                     - { property: 'outfits',                    type: 'easyadmin_autocomplete', label: 'Outfits' }
-                    - { type: 'group', css_class: 'col-sm-4', label: 'Additional Details', icon: 'cube' }
-                    - { property: 'alternateName',              label: 'Alternate name', css_class: 'large' }
-                    - { property: 'disambiguatingDescription',  label: 'Disambiguating Description', css_class: 'large' }
+                    - { type: 'group', css_class: 'col-sm-12', label: 'Media', icon: 'cube' }
                     - { property: 'image', type: 'Glavweb\UploaderDropzoneBundle\Form\ImageType', type_options: { label: 'Image', context: 'entity_images', by_reference: false  }}
                     - { property: 'trailerFile',                type: 'vich_image', label: 'Trailer' }
-                    - { property: 'hobby',                      type: 'ckeditor' , label: 'Hobby', css_class: 'large' }
-            new:
-                fields:
-                    - '-id'
-            edit:
-                fields:
-                    - { property: 'id', , type_options: { disabled: true }}
-                    - { property: 'language' }
+
 
 
