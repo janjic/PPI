@@ -28,6 +28,7 @@ easy_admin:
                     - { property: 'description', type: 'ckeditor' }
                     - { property: 'project', type: 'easyadmin_autocomplete' }
                     - { property: 'location', type: 'easyadmin_autocomplete' }
+                    - { property: 'subLocations', type: 'easyadmin_autocomplete' }
                     - { property: 'roles', type: 'easyadmin_autocomplete' }
                     - { type: 'group', css_class: 'col-sm-6', label: 'Additional Details', icon: 'cube' }
                     - { property: 'url' }

@@ -2,6 +2,7 @@ easy_admin:
     entities:
         Location:
             class: AppBundle\Entity\Location
+            controller: AppBundle\Controller\Admin\LocationController
             label: 'Locations'
             list:
                 title: '%%entity_label%%'

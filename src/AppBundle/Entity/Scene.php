@@ -51,7 +51,7 @@ class Scene
     protected $url;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Location", inversedBy="scene")
+     * @ORM\ManyToOne(targetEntity="Location")
      * @ORM\JoinColumn(name="location_id", referencedColumnName="id")
      */
     protected $location;
@@ -77,13 +77,26 @@ class Scene
      */
     protected $summary;
 
+
+    /**
+     * Many User have Many Phonenumbers.
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Location")
+     * @ORM\JoinTable(name="scene_sub_location",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="location_id", referencedColumnName="id", unique=true)}
+     *      )
+     */
+    private $subLocations;
+
     /**
      * Scene constructor.
      */
     public function __construct()
     {
         $this->roles = new ArrayCollection();
+        $this->subLocations = new ArrayCollection();
     }
+
 
 
     /**
@@ -288,6 +301,46 @@ class Scene
         $this->project = $project;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSubLocations()
+    {
+        return $this->subLocations;
+    }
+
+    /**
+     * @param mixed $subLocations
+     */
+    public function setSubLocations($subLocations)
+    {
+        $this->subLocations = $subLocations;
+    }
+
+    /**
+     * @param $location
+     */
+    public function addSubLocation($location)
+    {
+        if ($this->subLocations->contains($location)) {
+            return;
+        }
+
+        $this->subLocations->add($location);
+    }
+
+    /**
+     * @param $location
+     */
+    public function removeSubLocation($location)
+    {
+        if (!$this->subLocations->contains($location)) {
+            return;
+        }
+
+        $this->subLocations->removeElement($location);
     }
 
 }
