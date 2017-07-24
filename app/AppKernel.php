@@ -32,6 +32,7 @@ class AppKernel extends Kernel
             new Liip\ImagineBundle\LiipImagineBundle(),
             new Glavweb\UploaderBundle\GlavwebUploaderBundle(),
             new Glavweb\UploaderDropzoneBundle\GlavwebUploaderDropzoneBundle(),
+            new Ob\HighchartsBundle\ObHighchartsBundle(),
             new AppBundle\AppBundle(),
         );
 

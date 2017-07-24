@@ -7,6 +7,7 @@ easy_admin:
             list:
                 title: 'Project %%entity_label%%'
                 actions:
+                    - { name: 'show', label: '', icon: 'search' }
                     - { name: 'edit', label: '', icon: 'edit' }
                     - { name: 'delete', label: '', icon: 'trash' }
                 fields:

@@ -1,0 +1,14 @@
+{% extends '@EasyAdmin/default/show.html.twig' %}
+
+
+        {% block main %}
+                <script src="https://code.highcharts.com/highcharts.js"></script>
+                <script src="https://code.highcharts.com/modules/data.js"></script>
+                <script src="https://code.highcharts.com/modules/drilldown.js"></script>
+                <script type="text/javascript">
+                    {{ chart(chart) }}
+                </script>
+
+                <div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+
+            {% endblock %}
