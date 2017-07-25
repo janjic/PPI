@@ -9,8 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @package AppBundle\Entity
  * @ORM\Table(name="scene")
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
-class Scene
+class Scene implements CostInterface
 {
     /**
      * @var integer
@@ -87,6 +88,12 @@ class Scene
      *      )
      */
     private $subLocations;
+
+    /**
+     * @var float
+     * @ORM\Column(name="cost", type="float")
+     */
+    protected $cost;
 
     /**
      * Scene constructor.
@@ -190,7 +197,7 @@ class Scene
     }
 
     /**
-     * @return mixed
+     * @return Location
      */
     public function getLocation()
     {
@@ -342,5 +349,46 @@ class Scene
 
         $this->subLocations->removeElement($location);
     }
+
+    /**
+     * @return float
+     */
+    public function getCost()
+    {
+        return $this->cost;
+    }
+
+    /**
+     * @param float $cost
+     * @return Scene
+     */
+    public function setCost($cost)
+    {
+        $this->cost = $cost;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PreFlush()
+     */
+    public function calculateCosts()
+    {
+        $this->cost = 0;
+        $this->cost += $this->getLocation()->getCost();
+        if ($this->roles) {
+            /** @var Role $role */
+            foreach ($this->roles as $role) {
+                $this->cost += $role->getCost();
+            }
+        }
+        if ($this->subLocations) {
+            /** @var Location $location */
+            foreach ($this->subLocations as $location) {
+                $this->cost += $location->getCost();
+            }
+        }
+    }
+
 
 }

@@ -14,12 +14,9 @@ easy_admin:
                     - 'id'
                     - { property: 'name', label: 'Name' , template: '@App/table_text.html.twig'}
                     - { property: 'url',  label: 'Url' , template: '@App/table_text.html.twig'}
-#                    - { property: 'description',  label: 'Description', template: '@App/table_text.html.twig' }
-                    - { property: 'alternateName', label: 'Alternate name', template: '@App/table_text.html.twig' }
-                    - { property: 'disambiguatingDescription', label: 'Disambiguating Description', template: '@App/table_text.html.twig'}
-#                    - { property: 'summary', label: 'Summary' , template: '@App/table_text.html.twig'}
+                    - { property: 'description',  label: 'Description', template: '@App/ckeditor_text.html.twig' }
                     - 'directors'
-
+                    - 'cost'
             form:
                 fields:
                     - { type: 'group', css_class: 'col-sm-6', label: 'Basic Details', icon: 'pencil' }

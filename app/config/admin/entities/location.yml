@@ -14,6 +14,7 @@ easy_admin:
                     - { property: 'name', label: 'Label' }
                     - { property: 'parent', label: 'Parent category' }
                     - 'products'
+                    - 'cost'
             form:
                 fields:
                     - { type: 'group', css_class: 'col-sm-6', label: 'Basic Details', icon: 'pencil' }

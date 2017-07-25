@@ -14,6 +14,7 @@ easy_admin:
                     - { property: 'name', label: 'Label' }
                     - { property: 'parent', label: 'Parent category' }
                     - 'products'
+                    - 'cost'
             show:
                 fields:
                     - 'id'

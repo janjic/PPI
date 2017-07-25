@@ -18,8 +18,9 @@ use Glavweb\UploaderBundle\Mapping\Annotation as Glavweb;
  * @Gedmo\Tree(type="nested")
  * @ORM\Entity(repositoryClass="Gedmo\Tree\Entity\Repository\NestedTreeRepository")
  * @Glavweb\Uploadable
+ * @ORM\HasLifecycleCallbacks()
  */
-class Location
+class Location implements CostInterface
 {
     /**
      * @var integer
@@ -212,13 +213,13 @@ class Location
 
     /**
      * @var string
-     * @ORM\Column(name="location_contact_phone", type="simple_array", nullable=true)
+     * @ORM\Column(name="location_contact_phone", type="string", nullable=true)
      */
     protected $locationContactPhone;
 
     /**
      * @var string
-     * @ORM\Column(name="location_contact_email", type="simple_array", nullable=true)
+     * @ORM\Column(name="location_contact_email", type="string", nullable=true)
      */
     protected $locationContactEmail;
 
@@ -259,6 +260,12 @@ class Location
      * @ORM\OrderBy({"lft" = "ASC"})
      */
     private $children;
+
+    /**
+     * @var float
+     * @ORM\Column(name="cost", type="float")
+     */
+    protected $cost;
 
     /**
      * @return int
@@ -949,6 +956,38 @@ class Location
         $this->children = $children;
     }
 
+    /**
+     * @return float
+     */
+    public function getCost()
+    {
+        return $this->cost;
+    }
+
+    /**
+     * @param float $cost
+     * @return Location
+     */
+    public function setCost($cost)
+    {
+        $this->cost = $cost;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PreFlush()
+     */
+    public function calculateCosts()
+    {
+        $this->cost = 0;
+        if ($this->props) {
+            /** @var Product $outfit */
+            foreach ($this->props as $prop) {
+                $this->cost += $prop->getCost();
+            }
+        }
+    }
 
 
 

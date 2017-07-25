@@ -15,6 +15,7 @@ use Glavweb\UploaderBundle\Mapping\Annotation as Glavweb;
  * @ORM\Entity
  * @Vich\Uploadable
  * @Glavweb\Uploadable
+ * @ORM\HasLifecycleCallbacks()
  */
 class Role
 {
@@ -133,6 +134,12 @@ class Role
      * @ORM\Column(name="hobby", type="string", nullable=true)
      */
     protected $hobby;
+
+    /**
+     * @var float
+     * @ORM\Column(name="cost", type="float")
+     */
+    protected $cost;
 
     /**
      * Role constructor.
@@ -498,5 +505,40 @@ class Role
     {
         return $this->name;
     }
+
+    /**
+     * @return float
+     */
+    public function getCost()
+    {
+        return $this->cost;
+    }
+
+    /**
+     * @param float $cost
+     * @return Role
+     */
+    public function setCost($cost)
+    {
+        $this->cost = $cost;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PreFlush()
+     */
+    public function calculateCosts()
+    {
+        $this->cost = 0;
+        if ($this->outfits) {
+            /** @var Outfit $outfit */
+            foreach ($this->outfits as $outfit) {
+                $this->cost += $outfit->getCost();
+            }
+        }
+    }
+
+
 
 }

@@ -14,8 +14,9 @@ use Glavweb\UploaderBundle\Mapping\Annotation as Glavweb;
  * @ORM\Entity
  * @Vich\Uploadable
  * @Glavweb\Uploadable
+ * @ORM\HasLifecycleCallbacks()
  */
-class Outfit
+class Outfit implements CostInterface
 {
     /**
      * @var integer
@@ -157,6 +158,12 @@ class Outfit
      * @Glavweb\UploadableField(mapping="entity_images")
      */
     protected $image;
+
+    /**
+     * @var float
+     * @ORM\Column(name="cost", type="float")
+     */
+    protected $cost;
 
     /**
      * @return Media
@@ -607,6 +614,56 @@ class Outfit
     {
         return $this->name;
     }
+
+    /**
+     * @return float
+     */
+    public function getCost()
+    {
+        return $this->cost;
+    }
+
+    /**
+     * @param float $cost
+     * @return Outfit
+     */
+    public function setCost($cost)
+    {
+        $this->cost = $cost;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PreFlush()
+     */
+    public function calculateCosts()
+    {
+        $this->cost = 0;
+        $this->handleProds($this->head);
+        $this->handleProds($this->face);
+        $this->handleProds($this->glasses);
+        $this->handleProds($this->neck);
+        $this->handleProds($this->upperBody);
+        $this->handleProds($this->lowerBody);
+        $this->handleProds($this->accessories);
+        $this->handleProds($this->shoes);
+
+    }
+
+    /**
+     * @param array $props
+     */
+    private function handleProds($props)
+    {
+        if (count($props)) {
+            /** @var Product $prop */
+            foreach ($props as $prop) {
+                $this->cost += $prop->getCost();
+            }
+        }
+    }
+
 
 
 }

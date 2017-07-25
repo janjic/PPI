@@ -9,3 +9,10 @@ services:
         arguments: [ "@doctrine" ]
         tags:
             - { name: form.type_guesser }
+
+  app.ppi_listener:
+          class: AppBundle\Event\PpiListener
+          arguments: ["@doctrine"]
+          tags:
+              - { name: kernel.event_listener, event: easy_admin.post_update, method: postUpdate }
+              - { name: kernel.event_listener, event: kernel.terminate,       method: doOnTerminate }

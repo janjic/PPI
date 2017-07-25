@@ -11,8 +11,8 @@ easy_admin:
                 fields:
                     - 'id'
                     - { property: 'name', label: 'Name' , template: '@App/table_text.html.twig'}
-                    - { property: 'description',  label: 'Description', template: '@App/table_text.html.twig' }
-
+                    - { property: 'description',  label: 'Description', template: '@App/ckeditor_text.html.twig' }
+                    - 'cost'
             form:
                 fields:
                     - { type: 'group', css_class: 'col-sm-8', label: 'Basic Details', icon: 'pencil' }

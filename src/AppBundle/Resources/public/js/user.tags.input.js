@@ -3,7 +3,7 @@ $(function() {
 
     $('#user_phones').tagsInput({
         'defaultText':'Add new  phone number',
-        pattern: regex,
+        // pattern: regex,
         height: '80px',
         width: '100%'
 

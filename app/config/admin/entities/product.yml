@@ -8,7 +8,7 @@ easy_admin:
                     - id
                     - name
 #                    - alternateName
-                    - description
+                    - { property: description, template: '@App/ckeditor_text.html.twig' }
                     - cost
 #                    - disambiguatingDescription
 #                    - url

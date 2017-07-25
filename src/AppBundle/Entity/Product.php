@@ -17,7 +17,7 @@ use Glavweb\UploaderBundle\Mapping\Annotation as Glavweb;
  * @Glavweb\Uploadable
  * @ORM\HasLifecycleCallbacks()
  */
-class Product
+class Product implements CostInterface
 {
 
     /**
@@ -280,13 +280,13 @@ class Product
 
     /**
      * @var string
-     * @ORM\Column(name="provision_contact_phone", type="simple_array", nullable=true)
+     * @ORM\Column(name="provision_contact_phone", type="string", nullable=true)
      */
     protected $provisionContactPhone;
 
     /**
      * @var string
-     * @ORM\Column(name="provision_contact_email", type="simple_array", nullable=true)
+     * @ORM\Column(name="provision_contact_email", type="string", nullable=true)
      */
     protected $provisionContactEmail;
 

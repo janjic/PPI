@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @author Branko Janjic
  *
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class Project
 {
@@ -90,6 +91,11 @@ class Project
      */
     private $scenes;
 
+    /**
+     * @var float
+     * @ORM\Column(name="cost", type="float")
+     */
+    protected $cost;
 
 
 
@@ -362,6 +368,39 @@ class Project
 
         $this->scenes->removeElement($scene);
         $scene->setProject(null);
+    }
+
+    /**
+     * @return float
+     */
+    public function getCost()
+    {
+        return $this->cost;
+    }
+
+    /**
+     * @param float $cost
+     * @return Project
+     */
+    public function setCost($cost)
+    {
+        $this->cost = $cost;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PreFlush()
+     */
+    public function calculateCosts()
+    {
+        $this->cost = 0;
+        if ($this->scenes) {
+            /** @var Scene $scene */
+            foreach ($this->scenes as $scene) {
+                $this->cost += $scene->getCost();
+            }
+        }
     }
 
 
