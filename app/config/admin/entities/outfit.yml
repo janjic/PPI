@@ -15,7 +15,7 @@ easy_admin:
                     - 'cost'
             form:
                 fields:
-                    - { type: 'group', css_class: 'col-sm-8', label: 'Basic Details', icon: 'pencil' }
+                    - { type: 'group', css_class: 'col-sm-6', label: 'Basic Details', icon: 'pencil' }
                     - id
                     - { property: 'name',                       label: 'Name', css_class: 'large' }
                     - { property: 'description',                type: 'ckeditor', label: 'Description', css_class: 'large' }
@@ -28,7 +28,7 @@ easy_admin:
                     - { property: 'lowerBody', type: 'easyadmin_autocomplete' }
                     - { property: 'accessories', type: 'easyadmin_autocomplete' }
                     - { property: 'shoes', type: 'easyadmin_autocomplete' }
-                    - { type: 'group', css_class: 'col-sm-4', label: 'Additional Details', icon: 'cube' }
+                    - { type: 'group', css_class: 'col-sm-6', label: 'Additional Details', icon: 'cube' }
                     - { property: 'alternateName',              label: 'Alternate name', css_class: 'large' }
                     - { property: 'disambiguatingDescription',  label: 'Disambiguating Description', css_class: 'large' }
                     - { property: 'image', type: 'Glavweb\UploaderDropzoneBundle\Form\ImageType', type_options: { label: 'Image', context: 'entity_images', by_reference: false  }}
