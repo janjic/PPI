@@ -45,7 +45,7 @@ easy_admin:
                     - { property: 'hasMap', label: 'Map' }
                     - { property: 'isicV4' }
                     - { property: 'review' }
-                    - { property: 'smokingAllowed' }
+                    - { property: 'smokingAllowed', css_class: 'switch-change' }
                     - { property: 'locationContactName' }
                     - { property: 'locationContactPhone' }
                     - { property: 'locationContactEmail' }
