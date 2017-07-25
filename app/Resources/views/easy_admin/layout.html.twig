@@ -59,35 +59,34 @@
       {{ parent() }}
       <script src="{{ asset('bundles/app/js/custom.style.js') }}"></script>
 
-      <script>
-          $(document).ready(function()
-          {
-              var id= null;
-              $("#scene_subLocations_autocomplete").prop('disabled', 'disabled');
-                  $("#scene_location_autocomplete").change(function()
-                  {
-                      var tmp = parseInt($(this).val());
-                      //changed to other value
-                      if (Number.isInteger(id) && tmp || (id === null && tmp)) {
-                          id = tmp;
-                          $("#scene_subLocations_autocomplete").prop('disabled', false);
-                      } else {
-                          $("#scene_subLocations_autocomplete").select2("val", "");
-                          $("#scene_subLocations_autocomplete").prop('disabled', 'disabled');
-                          id = null;
-                      }
+      {#<script>#}
+          {#$(document).ready(function()#}
+          {#{#}
+              {#var id= null;#}
+              {#$("#scene_subLocations_autocomplete").prop('disabled', 'disabled');#}
+                  {#$("#scene_location_autocomplete").change(function()#}
+                  {#{#}
+                      {#var tmp = parseInt($(this).val());#}
+                      {#//changed to other value#}
+                      {#if (Number.isInteger(id) && tmp || (id === null && tmp)) {#}
+                          {#id = tmp;#}
+                          {#$("#scene_subLocations_autocomplete").prop('disabled', false);#}
+                      {#} else {#}
+                          {#$("#scene_subLocations_autocomplete").select2("val", "");#}
+                          {#$("#scene_subLocations_autocomplete").prop('disabled', 'disabled');#}
+                          {#id = null;#}
+                      {#}#}
 
-                  });
+                  {#});#}
 
 
-              $.ajaxPrefilter(function( options ) {
-                  if (parseInt(id)) {
-                      options.url = options.url + '&parent='+id;
-                  }
-              });
+              {#$.ajaxPrefilter(function( options ) {#}
+                  {#if (parseInt(id)) {#}
+                      {#options.url = options.url + '&parent='+id;#}
+                  {#}#}
+              {#});#}
 
-          });
-      </script>
+          {#});#}
+      {#</script>#}
 
   {% endblock body_javascript %}
-  {% endblock  %}
