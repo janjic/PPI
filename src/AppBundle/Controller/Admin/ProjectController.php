@@ -53,81 +53,174 @@ class ProjectController extends BaseAdminController
         $entity = $easyadmin['item'];
         $fields = $this->entity['show']['fields'];
 
-        $series = array(
-            array("name" => "Data Serie Name",    "data" => array(1,2,4,5,6,3,8))
-        );
 
-        $ob = new Highchart();
-        $ob->chart->renderTo('container');
-        $ob->chart->type('pie');
-        $ob->title->text('Browser market shares. November, 2013.');
-        $ob->plotOptions->series(
+        $scenesCost = new Highchart();
+        $scenesCost->chart->renderTo('scenesCost');
+        $scenesCost->chart->type('column');
+        $scenesCost->title->text('Cost of scenes. ');
+        $scenesCost->plotOptions->series(
             array(
                 'dataLabels' => array(
-                    'enabled' => true,
-                    'format' => '{point.name}: {point.y:.1f}%'
+                    'enabled' => true
                 )
             )
         );
 
-        $ob->tooltip->headerFormat('<span style="font-size:11px">{series.name}</span><br>');
-        $ob->tooltip->pointFormat('<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>');
+        $scenesCost->tooltip->headerFormat('<span style="font-size:11px">{series.name}</span><br>');
+        $scenesCost->tooltip->pointFormat('<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> EUR<br/>');
 
-        $data = array(
+        $scenes = array(
             array(
-                'name' => 'Chrome',
+                'name' => 'Scene 1',
                 'y' => 18.73,
-                'drilldown' => 'Chrome',
+                'drilldown' => 'Scene 1',
                 'visible' => true
             ),
             array(
-                'name' => 'Microsoft Internet Explorer',
+                'name' => 'Scene 2',
                 'y' => 53.61,
-                'drilldown' => 'Microsoft Internet Explorer',
+                'drilldown' => 'Scene 2',
                 'visible' => true
-            ),
-            array('Firefox', 45.0),
-            array('Opera', 1.5)
+            )
         );
-        $ob->series(
+
+        $scenesCost->series(
             array(
                 array(
-                    'name' => 'Browser share',
+                    'name' => 'Scenes',
                     'colorByPoint' => true,
-                    'data' => $data
+                    'data' => $scenes
                 )
             )
         );
 
         $drilldown = array(
             array(
-                'name' => 'Microsoft Internet Explorer',
-                'id' => 'Microsoft Internet Explorer',
+                'name' => 'Scene 1',
+                'id' => 'Scene 1',
                 'data' => array(
-                    array("v8.0", 26.61),
-                    array("v9.0", 16.96),
-                    array("v6.0", 6.4),
-                    array("v7.0", 3.55),
-                    array("v8.0", 0.09)
+                    array(
+                        'name' => 'Roles',
+                        'y' => 53.61,
+                        'visible' => true,
+                        'drilldown' => '1_ROLES',
+                    ),
+                    array(
+                        'name' => 'Locations',
+                        'y' => 53.61,
+                        'drilldown' => '1_LOCATIONS',
+                        'visible' => true
+                    ),
                 )
             ),
             array(
-                'name' => 'Chrome',
-                'id' => 'Chrome',
+                'name' => 'Scene 2',
+                'id' => '2',
                 'data' => array(
-                    array("v19.0", 7.73),
-                    array("v17.0", 1.13),
-                    array("v16.0", 0.45),
-                    array("v18.0", 0.26)
+                    array(
+                        'name' => 'Roles',
+                        'y' => 123131.23,
+                        'visible' => true,
+                        'drilldown' => '2_ROLES',
+                    ),
+                    array(
+                        'name' => 'Locations',
+                        'y' => 12123.3,
+                        'drilldown' => '2_Locations',
+                        'visible' => true
+                    ),
                 )
             ),
+            array(
+                'name' => 'Roles',
+                'id' => '1_ROLES',
+                'data' => array(
+                    array("Role 1", 7.73),
+                    array("Role 2", 1.13)
+                )
+            ),
+            array(
+                'name' => 'Locations',
+                'id' => '1_LOCATIONS',
+                'data' => array(
+                    array("Location 1", 7.73),
+                    array("Location 2", 7.54)
+                )
+            ),
+
+            array(
+                'name' => 'Roles',
+                'id' => '2_ROLES',
+                'data' => array(
+                    array("Role 1", 7.73),
+                    array("Role 2", 1.13)
+                )
+            ),
+            array(
+                'name' => 'Locations',
+                'id' => '2_LOCATIONS',
+                'data' => array(
+                    array("Location 1", 7.73),
+                    array("Location 2", 7.54)
+                )
+            ),
+
         );
-        $ob->drilldown->series($drilldown);
+
+        $scenesCost->drilldown->series($drilldown);
+
+
+
+
+        $locationsCost = new Highchart();
+        $locationsCost->chart->renderTo('locationsCost');
+        $locationsCost->title->text('Locations cost');
+        $locationsCost->plotOptions->pie(array(
+            'allowPointSelect'  => true,
+            'cursor'    => 'pointer',
+            'dataLabels'    => array('enabled' => false),
+            'showInLegend'  => true
+        ));
+
+        $locationData = array(
+            array('Location 1', 45.0),
+            array('Location 2', 26.8),
+            array('Location 3', 12.8),
+            array('Location 4', 8.5),
+            array('Location 5', 6.2),
+            array('Location 6', 0.7),
+        );
+
+        $locationsCost->series(array(array('type' => 'pie','name' => 'Locations cost', 'data' => $locationData)));
+
+
+        $roleCost = new Highchart();
+        $roleCost->chart->renderTo('rolesCost');
+        $roleCost->title->text('Roles cost');
+        $roleCost->plotOptions->pie(array(
+            'allowPointSelect'  => true,
+            'cursor'    => 'pointer',
+            'dataLabels'    => array('enabled' => false),
+            'showInLegend'  => true
+        ));
+
+        $roleData = array(
+            array('Role 1', 45.0),
+            array('Role 2', 26.8),
+            array('Role 3', 12.8),
+            array('Role 4', 8.5),
+            array('Role 5', 6.2),
+            array('Role 6', 0.7),
+        );
+        $roleCost->series(array(array('type' => 'pie','name' => 'Locations cost', 'data' => $roleData)));
+
 
         return $this->render($this->entity['templates']['show'], array(
             'entity' => $entity,
             'fields' => $fields,
-            'chart' => $ob,
+            'scenesCost' => $scenesCost,
+            'locationsCost' => $locationsCost,
+            'rolesCost' => $roleCost,
         ));
 
 
