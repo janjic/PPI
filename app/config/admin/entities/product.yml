@@ -4,6 +4,9 @@ easy_admin:
             class: AppBundle\Entity\Product
             label: 'PPI Products'
             list:
+                actions:
+                  - { name: 'edit', label: '', icon: 'edit' }
+                  - { name: 'delete', label: '', icon: 'trash' }
                 fields:
                     - id
                     - name

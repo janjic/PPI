@@ -7,11 +7,8 @@ use AppBundle\Entity\Product;
 use AppBundle\Entity\Project;
 use AppBundle\Entity\Role;
 use AppBundle\Entity\Scene;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use JavierEguiluz\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
-use JavierEguiluz\Bundle\EasyAdminBundle\Event\EasyAdminEvents;
 use Ob\HighchartsBundle\Highcharts\Highchart;
 use Symfony\Component\HttpFoundation\Response;
 
