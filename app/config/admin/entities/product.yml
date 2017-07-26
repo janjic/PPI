@@ -10,14 +10,13 @@ easy_admin:
                 fields:
                     - id
                     - name
-#                    - alternateName
+                    - alternateName
                     - { property: description, template: '@App/ckeditor_text.html.twig' }
                     - cost
-#                    - disambiguatingDescription
-#                    - url
-#                    - provisionContactName
-#                    - { property: 'provisionContactPhone', type: 'array' }
-#                    - { property: 'provisionContactEmail', type: 'array' }
+                    - disambiguatingDescription
+                    - url
+                    - provisionContactName
+
             show:
                 fields:
                     - id
