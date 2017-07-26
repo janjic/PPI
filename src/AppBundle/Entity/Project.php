@@ -283,7 +283,7 @@ class Project
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection
      */
     public function getScenes()
     {
@@ -302,7 +302,7 @@ class Project
     }
 
     /**
-     * @return Location[]
+     * @return Location[]|ArrayCollection
      */
     public function getLocations()
     {

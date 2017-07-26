@@ -63,6 +63,10 @@ menu.category:      Categories
 menu.category.list: All categories
 menu.category.add:  Add new category
 
+menu.location.list: All locations
+menu.location.add:  Add new location
+
+
 # We let EasyAdmin generate the rest of the backend labels
 # (they are translated following the 2) method)
 # ------------------------------------------------------------------------------

@@ -30,7 +30,7 @@ easy_admin:
                     - { property: 'hobby',                      type: 'ckeditor' , label: 'Hobby' }
                     - { property: 'actor',                      label: 'Actor' }
                     - { property: 'age',                        label: 'Age' }
-                    - { property: 'countryOfOrigin' }
+                    - { property: 'countryOfOrigin', type: 'country', type_options: { required: false } }
                     - { property: 'agentCompany' }
                     - { property: 'gender',                     type: 'choice', type_options: { multiple: false, choices: { 'MALE': 'Male', 'FEMALE': 'Female' } } }
                     - { property: 'outfits',                    type: 'easyadmin_autocomplete', label: 'Outfits' }

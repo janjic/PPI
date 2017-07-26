@@ -13,7 +13,8 @@ easy_admin:
                     - 'id'
                     - { property: 'name', label: 'Label' }
                     - { property: 'parent', label: 'Parent category' }
-                    - 'products'
+                    - { property: 'locationContactName' }
+                    - { property: 'locationContactPhone' }
                     - 'cost'
             form:
                 fields:
