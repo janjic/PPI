@@ -165,9 +165,12 @@ class UserController extends BaseAdminController
             }
         }
 
+        /**
+         * CHANGED Branko
+         */
         if (($this->forEntity === (new \ReflectionClass(Project::class))->getShortName()) && $this->get('security.token_storage')->getToken()->getUser()->isAdmin()) {
-            $queryBuilder->andwhere("entity.isAdmin = 0");
-        }
+//            $queryBuilder->andwhere("entity.isAdmin = 0");
+         }
 
         if (0 !== count($queryParameters)) {
             $queryBuilder->setParameters($queryParameters);

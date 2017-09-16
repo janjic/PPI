@@ -1,13 +1,23 @@
 {% extends '@EasyAdmin/form/bootstrap_3_layout.html.twig' %}
 
 {% block easyadmin_autocomplete_widget %}
-    {{ form_widget(form.autocomplete, {
-        attr: attr|merge({
-            'data-easyadmin-autocomplete-max-results': easyadmin_config('show.max_results'),
-            'data-easyadmin-autocomplete-url' : path('easyadmin', {
-                action: 'autocomplete',
-                entity: autocomplete_entity_name,
-            }) ~ '&currentEntity='~ app.request.get('entity') |raw })
-    })
-    }}
+    <div class="custom-add-holder">
+        {{ form_widget(form.autocomplete, {
+            attr: attr|merge({
+                'data-easyadmin-autocomplete-max-results': easyadmin_config('show.max_results'),
+                'data-easyadmin-autocomplete-url' : path('easyadmin', {
+                    action: 'autocomplete',
+                    entity: autocomplete_entity_name,
+                }) ~ '&currentEntity='~ app.request.get('entity') |raw })
+        })
+        }}
+    {%  set currentEntity = app.request.get('entity') %}
+        <a class="custom-add" href="{{ path('easyadmin', {
+                    action: 'new',
+                    entity: autocomplete_entity_name,
+                }) |raw  ~ '&referer='~ path('easyadmin', {
+            action: 'new',
+            entity: currentEntity,
+        }) |url_encode}}"> Add new </a>
+    </div>
 {% endblock easyadmin_autocomplete_widget %}

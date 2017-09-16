@@ -33,7 +33,7 @@ easy_admin:
                     - { property: 'city', type: 'text', type_options: { required: false } }
                     - { property: 'street', type: 'text', type_options: { required: false } }
                     - { property: 'phones'}
-                    - { property: 'projects', label: 'Director settings' }
+                    - { property: 'projects', label: 'Director settings', type: 'easyadmin_autocomplete' }
                     - { type: 'group', label: 'Images', icon: 'image', css_class: 'col-sm-12' }
                     - { property: 'images', type: 'Glavweb\UploaderDropzoneBundle\Form\ImageCollectionType',  type_options: { label: ' ', context: 'entity_images', by_reference: false  }}
 

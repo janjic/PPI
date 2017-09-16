@@ -73,6 +73,7 @@ class ProjectController extends BaseAdminController
         $locationsCostSum = 0;
         $scenesCostSum = 0;
         $roleCostSum = 0;
+        $roleCount = 0;
         $scenes = array();
         $roleData = array();
         $locationData = array();
@@ -98,6 +99,7 @@ class ProjectController extends BaseAdminController
                 }
 
                 $roleCostSum = $roleCostSum + $role->getCost();
+                $roleCount = $roleCount +1;
             }
             $drilldown [] = array(
                 'name' => 'Roles',
@@ -240,7 +242,7 @@ class ProjectController extends BaseAdminController
             'locationCost' => $locationsCostSum,
             'sceneNum' => $entity->getScenes()->count(),
             'sceneCost' => $scenesCostSum,
-            'roleNum' => $scene->getRoles()->count(),
+            'roleNum' => $roleCount,
             'roleCost' => $roleCostSum,
         ));
 
